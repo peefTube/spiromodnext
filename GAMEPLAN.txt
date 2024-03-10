@@ -1,0 +1,50 @@
+GAME PLAN:
+    v1.0.X: GROUND ZERO
+        _:: Port redesigned tiering system from old mod project.
+        _:: Port modified stock ore block system.
+        _:: Study ore generation, port old systems if necessary.
+        _:: Study biome generation, port old systems if necessary.
+        _:: Study tree generation, port old systems if necessary.
+    v1.1.X: FOUNDATION - FARMING
+        _:: Add new crops: flax, onion, turnip, peanuts
+        _:: Add new trees with/or fruits: apple, pear, orange, lemon, lime, cherry, coconut
+                                    NOTE: cherry should modify an existing tree!
+                                    NOTE: coconut should modify jungle trees until palms exist.
+        _:: Add new foods: apple pie, cherry pie, chocolate, lemon cake, carrot cake
+        _:: Port "small stone" and wood tiering mechanics
+    v1.2.X: FOUNDATION - EXPLORATION
+        _:: Add new biomes: Dover, Flax Fields, Fairy Fields
+        _:: Add new blocks (& ore variants): Blue Schist, Windstone, Fairystone, Shale
+        _:: Add new tree types: Windwood, Fairywood, Palewood, Palm
+        _:: Add new tiers & materials:
+            _:: ARMOR: Linen (Flax), Woollen
+            _:: TOOLS: N/A
+        _:: Add new foods: Fairyleaf
+    v1.3.X: FOUNDATION - INDUSTRIAL DEVELOPMENT
+        _:: Add basic burner generator, battery block, cabling, and general energy system
+        _:: Add basic conveyor belt and piping system
+        _:: Add ores & materials: Lead, Tin, Zinc, Silver, Silicon
+        _:: Add fluid tank system
+        _:: Add passive redstone generator & redstone-energy interfacing system
+        _:: Redesign tiers to accommodate new ores and materials and rebalance for automation
+        _:: Design alloying system and any related systems/blocks, add brass & bronze
+        _:: Design basic chemical processing system to isolate salt from water, add salt
+    v1.4.X: FOUNDATION - THAUMATURGY
+        _:: Design chemical/alchemical refinement for fairystone which requires use of salt
+            _:: New material & tier: Lesser Faeriemetal
+        _:: Add early-game passive thaumaturgic generator which requires fairywood, windwood, windstone and fairyleaf
+        _:: Design system to convert fairyleaf into raw experience
+        _:: Design system to alloy experience and/or thaumic materials (i.e. fairyleaf) with materials like bronze & gold
+            _:: New material & tier: Celestial Bronze
+    v1.5.X: FOUNDATION - AUTOMATION
+        _:: Design machine parts and blocks as a foundation
+        _:: Design automated defense turret mk0, which uses arrows as ammunition with a low fire rate
+        _:: Add basic electronic components
+        _:: Design automated smelting, crafting, pumping, and refining processes
+        _:: Rebalance systems to accommodate steel, carbon steel, and aurichalcum
+    v1.6.X: FOUNDATION - LIFE & AGRICULTURE
+        _:: Add new 'flavor' mob: fairy
+        _:: Add new food items: bacon, cheese, simple cheeseburger
+        _:: Add new self-irrigated farmland block
+        _:: Add new crops & foods: tomato, ketchup, cucumber, vinegar, pickle, lettuce, cabbage, cheeseburger, (simple) bacon cheeseburger
+        _:: Make animals occasionally drop bones
