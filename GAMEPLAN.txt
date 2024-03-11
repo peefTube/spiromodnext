@@ -1,8 +1,9 @@
 GAME PLAN:
     v1.0.X: GROUND ZERO
         X:: Set up webhook for Discord-GitHub integration.
-        _:: Port redesigned tiering system from old mod project.
+        X:: Port redesigned tiering system from old mod project.
         _:: Port modified stock ore block system.
+        _:: Port worldgen height modifications.
         _:: Study ore generation, port old systems if necessary.
         _:: Study biome generation, port old systems if necessary.
         _:: Study tree generation, port old systems if necessary.
