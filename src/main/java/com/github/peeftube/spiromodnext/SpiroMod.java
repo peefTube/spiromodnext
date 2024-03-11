@@ -43,19 +43,19 @@ public class SpiroMod
 
     // The constructor for the mod class is the first code that is run when your mod is loaded.
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
-    public SpiroMod(IEventBus modEventBus)
+    public SpiroMod(IEventBus bus)
     {
         Registry.init();
 
         // Register the commonSetup method for modloading
-        modEventBus.addListener(this::commonSetup);
+        bus.addListener(this::commonSetup);
 
         // Register the Deferred Register to the mod event bus so blocks get registered
-        //BLOCKS.register(modEventBus);
+        //BLOCKS.register(bus);
         // Register the Deferred Register to the mod event bus so items get registered
-        //ITEMS.register(modEventBus);
+        //ITEMS.register(bus);
         // Register the Deferred Register to the mod event bus so tabs get registered
-        //CREATIVE_MODE_TABS.register(modEventBus);
+        //CREATIVE_MODE_TABS.register(bus);
 
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (ExampleMod) to respond directly to events.
@@ -63,7 +63,7 @@ public class SpiroMod
         NeoForge.EVENT_BUS.register(this);
 
         // Register the item to a creative tab
-        modEventBus.addListener(this::addCreative);
+        bus.addListener(this::addCreative);
 
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
