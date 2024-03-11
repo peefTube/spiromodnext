@@ -9,7 +9,7 @@ GAME PLAN:
         _:: Add new trees with/or fruits: apple, pear, orange, lemon, lime, cherry, coconut
                                     NOTE: cherry should modify an existing tree!
                                     NOTE: coconut should modify jungle trees until palms exist.
-        _:: Add new foods: apple pie, cherry pie, chocolate, lemon cake, carrot cake
+        _:: Add new foods: apple pie, cherry pie, chocolate, applesauce
         _:: Port "small stone" and wood tiering mechanics
     v1.2.X: FOUNDATION - EXPLORATION
         _:: Add new biomes: Dover, Flax Fields, Fairy Fields
