@@ -15,6 +15,6 @@ public enum BlockToughness
     private BlockToughness(float str)
     { this.toughness = str; }
 
-    public float getToughness()
+    public float get()
     { return toughness; }
 }

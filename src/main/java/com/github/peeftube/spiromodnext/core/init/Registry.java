@@ -52,17 +52,6 @@ public class Registry
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(SpiroMod.MOD_ID);
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(SpiroMod.MOD_ID);
 
-    public static final BlockBehaviour.Properties STONE_BASED_ORE =
-            BlockBehaviour.Properties.of().strength(BlockToughness.NORMAL.getToughness()).sound(SoundType.STONE);
-    public static final BlockBehaviour.Properties TUFF_BASED_ORE  =
-            BlockBehaviour.Properties.of().strength(BlockToughness.NORMAL.getToughness()).sound(SoundType.TUFF);
-    public static final BlockBehaviour.Properties DRIPSTONE_BASED_ORE =
-            BlockBehaviour.Properties.of().strength(BlockToughness.NORMAL.getToughness()).sound(SoundType.DRIPSTONE_BLOCK);
-    public static final BlockBehaviour.Properties DEEPSLATE_BASED_ORE =
-            BlockBehaviour.Properties.of().strength(BlockToughness.TOUGH.getToughness()).sound(SoundType.DEEPSLATE);
-    public static final BlockBehaviour.Properties CALCITE_BASED_ORE =
-            BlockBehaviour.Properties.of().strength(BlockToughness.WEAK.getToughness()).sound(SoundType.CALCITE);
-
     public static final DeferredBlock<Block> DIORITE_COAL = BLOCKS.register("diorite_coal_ore",
             () -> new Block(STONE_BASED_ORE.lightLevel(s -> 0)));
     public static final DeferredBlock<Block> GRANITE_COAL = BLOCKS.register("granite_coal_ore",
