@@ -19,9 +19,7 @@ public record OreCollection(String name,
                             Supplier<Block> dioriteOre, Supplier<Item> dioriteItem,
                             Supplier<Block> graniteOre, Supplier<Item> graniteItem,
                             Supplier<Block> calciteOre, Supplier<Item> calciteItem,
-                            Supplier<Block> saStOre, Supplier<Item> saStItem,
                             Supplier<Block> smtSaStOre, Supplier<Item> smtSaStItem,
-                            Supplier<Block> redSaStOre, Supplier<Item> redSaStItem,
                             Supplier<Block> smtRedSaStOre, Supplier<Item> smtRedSaStItem,
                             Supplier<Block> deepslateOre, Supplier<Item> deepslateItem,
                             Supplier<Block> tuffOre, Supplier<Item> tuffItem,
@@ -36,8 +34,8 @@ public record OreCollection(String name,
     protected enum BaseStone
     {
         STONE(""), ANDESITE("andesite_"), DIORITE("diorite_"),
-        GRANITE("granite_"), CALCITE("calcite_"), SANDSTONE("sandstone_"),
-        SMSAST("smooth_sandstone_"), RSAST("red_sandstone_"), SMRSAST("smooth_red_sandstone_"),
+        GRANITE("granite_"), CALCITE("calcite_"),
+        SMSAST("smooth_sandstone_"), SMRSAST("smooth_red_sandstone_"),
         DEEPSLATE("deepslate_"), TUFF("tuff_"), DRIPSTONE("dripstone_"),
         NETHERRACK("nether_"), BASALT("basalt_"), ENDSTONE("end_");
 
@@ -64,9 +62,7 @@ public record OreCollection(String name,
         Supplier<Block> dioriteOre; Supplier<Item> dioriteItem;
         Supplier<Block> graniteOre; Supplier<Item> graniteItem;
         Supplier<Block> calciteOre; Supplier<Item> calciteItem;
-        Supplier<Block> saStOre; Supplier<Item> saStItem;
         Supplier<Block> smtSaStOre; Supplier<Item> smtSaStItem;
-        Supplier<Block> redSaStOre; Supplier<Item> redSaStItem;
         Supplier<Block> smtRedSaStOre; Supplier<Item> smtRedSaStItem;
         Supplier<Block> deepslateOre; Supplier<Item> deepslateItem;
         Supplier<Block> tuffOre; Supplier<Item> tuffItem;
@@ -95,15 +91,9 @@ public record OreCollection(String name,
                 calciteOre = Registry.regBlock(BaseStone.CALCITE.get() + oreName,
                         () -> new Block(CALCITE_BASED_ORE.lightLevel(s -> li)));
                 calciteItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) calciteOre);
-                saStOre = Registry.regBlock(BaseStone.SANDSTONE.get() + oreName,
-                        () -> new Block(STONE_BASED_ORE.lightLevel(s -> li)));
-                saStItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) saStOre);
                 smtSaStOre = Registry.regBlock(BaseStone.SMSAST.get() + oreName,
                         () -> new Block(STONE_BASED_ORE.lightLevel(s -> li)));
                 smtSaStItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) smtSaStOre);
-                redSaStOre = Registry.regBlock(BaseStone.RSAST.get() + oreName,
-                        () -> new Block(STONE_BASED_ORE.lightLevel(s -> li)));
-                redSaStItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) redSaStOre);
                 smtRedSaStOre = Registry.regBlock(BaseStone.SMRSAST.get() + oreName,
                         () -> new Block(STONE_BASED_ORE.lightLevel(s -> li)));
                 smtRedSaStItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) smtRedSaStOre);
@@ -141,15 +131,9 @@ public record OreCollection(String name,
                 calciteOre = Registry.regBlock(BaseStone.CALCITE.get() + oreName,
                         () -> new Block(CALCITE_BASED_ORE.lightLevel(s -> li)));
                 calciteItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) calciteOre);
-                saStOre = Registry.regBlock(BaseStone.SANDSTONE.get() + oreName,
-                        () -> new Block(STONE_BASED_ORE.lightLevel(s -> li)));
-                saStItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) saStOre);
                 smtSaStOre = Registry.regBlock(BaseStone.SMSAST.get() + oreName,
                         () -> new Block(STONE_BASED_ORE.lightLevel(s -> li)));
                 smtSaStItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) smtSaStOre);
-                redSaStOre = Registry.regBlock(BaseStone.RSAST.get() + oreName,
-                        () -> new Block(STONE_BASED_ORE.lightLevel(s -> li)));
-                redSaStItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) redSaStOre);
                 smtRedSaStOre = Registry.regBlock(BaseStone.SMRSAST.get() + oreName,
                         () -> new Block(STONE_BASED_ORE.lightLevel(s -> li)));
                 smtRedSaStItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) smtRedSaStOre);
@@ -187,15 +171,9 @@ public record OreCollection(String name,
                 calciteOre = Registry.regBlock(BaseStone.CALCITE.get() + oreName,
                         () -> new Block(CALCITE_BASED_ORE.lightLevel(s -> li)));
                 calciteItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) calciteOre);
-                saStOre = Registry.regBlock(BaseStone.SANDSTONE.get() + oreName,
-                        () -> new Block(STONE_BASED_ORE.lightLevel(s -> li)));
-                saStItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) saStOre);
                 smtSaStOre = Registry.regBlock(BaseStone.SMSAST.get() + oreName,
                         () -> new Block(STONE_BASED_ORE.lightLevel(s -> li)));
                 smtSaStItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) smtSaStOre);
-                redSaStOre = Registry.regBlock(BaseStone.RSAST.get() + oreName,
-                        () -> new Block(STONE_BASED_ORE.lightLevel(s -> li)));
-                redSaStItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) redSaStOre);
                 smtRedSaStOre = Registry.regBlock(BaseStone.SMRSAST.get() + oreName,
                         () -> new Block(STONE_BASED_ORE.lightLevel(s -> li)));
                 smtRedSaStItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) smtRedSaStOre);
@@ -235,15 +213,9 @@ public record OreCollection(String name,
                 calciteOre = Registry.regBlock(BaseStone.CALCITE.get() + oreName,
                         () -> new Block(CALCITE_BASED_ORE.lightLevel(s -> li)));
                 calciteItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) calciteOre);
-                saStOre = Registry.regBlock(BaseStone.SANDSTONE.get() + oreName,
-                        () -> new Block(STONE_BASED_ORE.lightLevel(s -> li)));
-                saStItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) saStOre);
                 smtSaStOre = Registry.regBlock(BaseStone.SMSAST.get() + oreName,
                         () -> new Block(STONE_BASED_ORE.lightLevel(s -> li)));
                 smtSaStItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) smtSaStOre);
-                redSaStOre = Registry.regBlock(BaseStone.RSAST.get() + oreName,
-                        () -> new Block(STONE_BASED_ORE.lightLevel(s -> li)));
-                redSaStItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) redSaStOre);
                 smtRedSaStOre = Registry.regBlock(BaseStone.SMRSAST.get() + oreName,
                         () -> new Block(STONE_BASED_ORE.lightLevel(s -> li)));
                 smtRedSaStItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) smtRedSaStOre);
@@ -278,15 +250,9 @@ public record OreCollection(String name,
                 calciteOre = Registry.regBlock(BaseStone.CALCITE.get() + oreName,
                         () -> new Block(CALCITE_BASED_ORE.lightLevel(s -> li)));
                 calciteItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) calciteOre);
-                saStOre = Registry.regBlock(BaseStone.SANDSTONE.get() + oreName,
-                        () -> new Block(STONE_BASED_ORE.lightLevel(s -> li)));
-                saStItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) saStOre);
                 smtSaStOre = Registry.regBlock(BaseStone.SMSAST.get() + oreName,
                         () -> new Block(STONE_BASED_ORE.lightLevel(s -> li)));
                 smtSaStItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) smtSaStOre);
-                redSaStOre = Registry.regBlock(BaseStone.RSAST.get() + oreName,
-                        () -> new Block(STONE_BASED_ORE.lightLevel(s -> li)));
-                redSaStItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) redSaStOre);
                 smtRedSaStOre = Registry.regBlock(BaseStone.SMRSAST.get() + oreName,
                         () -> new Block(STONE_BASED_ORE.lightLevel(s -> li)));
                 smtRedSaStItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) smtRedSaStOre);
@@ -324,15 +290,9 @@ public record OreCollection(String name,
                 calciteOre = Registry.regBlock(BaseStone.CALCITE.get() + oreName,
                         () -> new Block(CALCITE_BASED_ORE.lightLevel(s -> li)));
                 calciteItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) calciteOre);
-                saStOre = Registry.regBlock(BaseStone.SANDSTONE.get() + oreName,
-                        () -> new Block(STONE_BASED_ORE.lightLevel(s -> li)));
-                saStItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) saStOre);
                 smtSaStOre = Registry.regBlock(BaseStone.SMSAST.get() + oreName,
                         () -> new Block(STONE_BASED_ORE.lightLevel(s -> li)));
                 smtSaStItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) smtSaStOre);
-                redSaStOre = Registry.regBlock(BaseStone.RSAST.get() + oreName,
-                        () -> new Block(STONE_BASED_ORE.lightLevel(s -> li)));
-                redSaStItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) redSaStOre);
                 smtRedSaStOre = Registry.regBlock(BaseStone.SMRSAST.get() + oreName,
                         () -> new Block(STONE_BASED_ORE.lightLevel(s -> li)));
                 smtRedSaStItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) smtRedSaStOre);
@@ -370,15 +330,9 @@ public record OreCollection(String name,
                 calciteOre = Registry.regBlock(BaseStone.CALCITE.get() + oreName,
                         () -> new Block(CALCITE_BASED_ORE.lightLevel(s -> li)));
                 calciteItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) calciteOre);
-                saStOre = Registry.regBlock(BaseStone.SANDSTONE.get() + oreName,
-                        () -> new Block(STONE_BASED_ORE.lightLevel(s -> li)));
-                saStItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) saStOre);
                 smtSaStOre = Registry.regBlock(BaseStone.SMSAST.get() + oreName,
                         () -> new Block(STONE_BASED_ORE.lightLevel(s -> li)));
                 smtSaStItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) smtSaStOre);
-                redSaStOre = Registry.regBlock(BaseStone.RSAST.get() + oreName,
-                        () -> new Block(STONE_BASED_ORE.lightLevel(s -> li)));
-                redSaStItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) redSaStOre);
                 smtRedSaStOre = Registry.regBlock(BaseStone.SMRSAST.get() + oreName,
                         () -> new Block(STONE_BASED_ORE.lightLevel(s -> li)));
                 smtRedSaStItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) smtRedSaStOre);
@@ -416,15 +370,9 @@ public record OreCollection(String name,
                 calciteOre = Registry.regBlock(BaseStone.CALCITE.get() + oreName,
                         () -> new Block(CALCITE_BASED_ORE.lightLevel(s -> li)));
                 calciteItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) calciteOre);
-                saStOre = Registry.regBlock(BaseStone.SANDSTONE.get() + oreName,
-                        () -> new Block(STONE_BASED_ORE.lightLevel(s -> li)));
-                saStItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) saStOre);
                 smtSaStOre = Registry.regBlock(BaseStone.SMSAST.get() + oreName,
                         () -> new Block(STONE_BASED_ORE.lightLevel(s -> li)));
                 smtSaStItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) smtSaStOre);
-                redSaStOre = Registry.regBlock(BaseStone.RSAST.get() + oreName,
-                        () -> new Block(STONE_BASED_ORE.lightLevel(s -> li)));
-                redSaStItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) redSaStOre);
                 smtRedSaStOre = Registry.regBlock(BaseStone.SMRSAST.get() + oreName,
                         () -> new Block(STONE_BASED_ORE.lightLevel(s -> li)));
                 smtRedSaStItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) smtRedSaStOre);
@@ -463,15 +411,9 @@ public record OreCollection(String name,
                 calciteOre = Registry.regBlock(BaseStone.CALCITE.get() + oreName,
                         () -> new Block(CALCITE_BASED_ORE.lightLevel(s -> li)));
                 calciteItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) calciteOre);
-                saStOre = Registry.regBlock(BaseStone.SANDSTONE.get() + oreName,
-                        () -> new Block(STONE_BASED_ORE.lightLevel(s -> li)));
-                saStItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) saStOre);
                 smtSaStOre = Registry.regBlock(BaseStone.SMSAST.get() + oreName,
                         () -> new Block(STONE_BASED_ORE.lightLevel(s -> li)));
                 smtSaStItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) smtSaStOre);
-                redSaStOre = Registry.regBlock(BaseStone.RSAST.get() + oreName,
-                        () -> new Block(STONE_BASED_ORE.lightLevel(s -> li)));
-                redSaStItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) redSaStOre);
                 smtRedSaStOre = Registry.regBlock(BaseStone.SMRSAST.get() + oreName,
                         () -> new Block(STONE_BASED_ORE.lightLevel(s -> li)));
                 smtRedSaStItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) smtRedSaStOre);
@@ -508,15 +450,9 @@ public record OreCollection(String name,
                 calciteOre = Registry.regBlock(BaseStone.CALCITE.get() + oreName,
                         () -> new Block(CALCITE_BASED_ORE.lightLevel(s -> li)));
                 calciteItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) calciteOre);
-                saStOre = Registry.regBlock(BaseStone.SANDSTONE.get() + oreName,
-                        () -> new Block(STONE_BASED_ORE.lightLevel(s -> li)));
-                saStItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) saStOre);
                 smtSaStOre = Registry.regBlock(BaseStone.SMSAST.get() + oreName,
                         () -> new Block(STONE_BASED_ORE.lightLevel(s -> li)));
                 smtSaStItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) smtSaStOre);
-                redSaStOre = Registry.regBlock(BaseStone.RSAST.get() + oreName,
-                        () -> new Block(STONE_BASED_ORE.lightLevel(s -> li)));
-                redSaStItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) redSaStOre);
                 smtRedSaStOre = Registry.regBlock(BaseStone.SMRSAST.get() + oreName,
                         () -> new Block(STONE_BASED_ORE.lightLevel(s -> li)));
                 smtRedSaStItem = Registry.regSimpleBlockItem((DeferredBlock<Block>) smtRedSaStOre);
@@ -542,9 +478,9 @@ public record OreCollection(String name,
         }
         OreCollection collection = new OreCollection(name, defaultOre, defaultItem, andesiteOre, andesiteItem,
                 dioriteOre, dioriteItem, graniteOre, graniteItem, calciteOre, calciteItem,
-                saStOre, saStItem, smtSaStOre, smtSaStItem, redSaStOre, redSaStItem, smtRedSaStOre, smtRedSaStItem,
-                deepslateOre, deepslateItem, tuffOre, tuffItem, dripstoneOre, dripstoneItem,
-                netherrackOre, netherrackItem, basaltOre, basaltItem, endstoneOre, endstoneItem);
+                smtSaStOre, smtSaStItem, smtRedSaStOre, smtRedSaStItem, deepslateOre, deepslateItem,
+                tuffOre, tuffItem, dripstoneOre, dripstoneItem, netherrackOre, netherrackItem,
+                basaltOre, basaltItem, endstoneOre, endstoneItem);
         ORE_COLLECTIONS.add(collection); return collection;
     }
 
@@ -552,10 +488,10 @@ public record OreCollection(String name,
     { return this.name; }
 
     public List<Supplier<? extends Block>> getBlocks()
-    { return List.of(defaultOre, andesiteOre, dioriteOre, graniteOre, calciteOre, saStOre, smtSaStOre, redSaStOre,
+    { return List.of(defaultOre, andesiteOre, dioriteOre, graniteOre, calciteOre, smtSaStOre,
             smtRedSaStOre, deepslateOre, tuffOre, dripstoneOre, netherrackOre, basaltOre, endstoneOre); }
     
     public List<Supplier<? extends Item>> getItems()
-    { return List.of(defaultItem, andesiteItem, dioriteItem, graniteItem, calciteItem, saStItem, smtSaStItem, redSaStItem,
+    { return List.of(defaultItem, andesiteItem, dioriteItem, graniteItem, calciteItem, smtSaStItem,
             smtRedSaStItem, deepslateItem, tuffItem, dripstoneItem, netherrackItem, basaltItem, endstoneItem); }
 }
