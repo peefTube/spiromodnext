@@ -25,8 +25,8 @@ public class BlockstateDataProv extends BlockStateProvider
     protected final ResourceLocation granite = blockTexture(Blocks.GRANITE);
     protected final ResourceLocation tuff = blockTexture(Blocks.TUFF);
     protected final ResourceLocation dripstone = blockTexture(Blocks.DRIPSTONE_BLOCK);
-    protected final ResourceLocation smtSaSt = blockTexture(Blocks.SMOOTH_SANDSTONE);
-    protected final ResourceLocation smtRedSaSt = blockTexture(Blocks.SMOOTH_RED_SANDSTONE);
+    protected final ResourceLocation smtSaSt = getTopTex(blockTexture(Blocks.SANDSTONE));
+    protected final ResourceLocation smtRedSaSt = getTopTex(blockTexture(Blocks.RED_SANDSTONE));
     protected final ResourceLocation basalt = blockTexture(Blocks.SMOOTH_BASALT);
     protected final ResourceLocation netherrack = blockTexture(Blocks.NETHERRACK);
     protected final ResourceLocation stone = blockTexture(Blocks.STONE);
@@ -111,7 +111,13 @@ public class BlockstateDataProv extends BlockStateProvider
                     else
                     { modularOreBuilder(blocks.get(i).get(), netherrack, mat); }
                 }
-                case 11 -> modularOreBuilder(blocks.get(i).get(), basalt, mat);
+                case 11 ->
+                {
+                    if (material.equals("gold"))
+                    { modularOreBuilder(blocks.get(i).get(), basalt, oreOverlayHelper(material, true)); }
+                    else
+                    { modularOreBuilder(blocks.get(i).get(), basalt, mat); }
+                }
                 case 12 -> modularOreBuilder(blocks.get(i).get(), endstone, mat);
                 default -> {}
             }
