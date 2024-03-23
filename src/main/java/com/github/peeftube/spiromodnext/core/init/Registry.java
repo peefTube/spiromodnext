@@ -3,6 +3,7 @@ package com.github.peeftube.spiromodnext.core.init;
 import com.github.peeftube.spiromodnext.SpiroMod;
 import com.github.peeftube.spiromodnext.core.TierMod;
 import com.github.peeftube.spiromodnext.core.init.registry.data.BlockToughness;
+import com.github.peeftube.spiromodnext.core.init.registry.data.OreCollection;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -51,17 +52,6 @@ public class Registry
         TierMod.fire();
     }
 
-    public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(SpiroMod.MOD_ID);
-    public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(SpiroMod.MOD_ID);
-
-    // Based on Nyfaria's code:
-    // https://shorturl.at/bktNR
-    public static <B extends Block> DeferredBlock<B> regBlock(String name, Supplier<B> block)
-    { return BLOCKS.register(name, block); }
-
-    public static <I extends Item> DeferredItem<I> regSimpleBlockItem(DeferredBlock<Block> block)
-    { return (DeferredItem<I>) ITEMS.registerSimpleBlockItem(block); }
-
     public static final BlockBehaviour.Properties STONE_BASED_ORE     =
             BlockBehaviour.Properties.of().strength(BlockToughness.NORMAL.get()).sound(SoundType.STONE);
     public static final BlockBehaviour.Properties TUFF_BASED_ORE      =
@@ -76,4 +66,25 @@ public class Registry
             BlockBehaviour.Properties.of().strength(BlockToughness.WEAK.get()).sound(SoundType.NETHERRACK);
     public static final BlockBehaviour.Properties BASALT_BASED_ORE =
             BlockBehaviour.Properties.of().strength(BlockToughness.WEAK.get()).sound(SoundType.BASALT);
+
+    public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(SpiroMod.MOD_ID);
+    public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(SpiroMod.MOD_ID);
+
+    // Based on Nyfaria's code:
+    // https://shorturl.at/bktNR
+    public static <B extends Block> DeferredBlock<B> regBlock(String name, Supplier<B> block)
+    { return BLOCKS.register(name, block); }
+
+    public static <I extends Item> DeferredItem<I> regSimpleBlockItem(DeferredBlock<Block> block)
+    { return (DeferredItem<I>) ITEMS.registerSimpleBlockItem(block); }
+
+    public static final OreCollection COAL_ORES = OreCollection.registerCollection("coal");
+    public static final OreCollection IRON_ORES = OreCollection.registerCollection("iron");
+    public static final OreCollection COPPER_ORES = OreCollection.registerCollection("copper");
+    public static final OreCollection GOLD_ORES = OreCollection.registerCollection("gold");
+    public static final OreCollection LAPIS_ORES = OreCollection.registerCollection("lapis");
+    public static final OreCollection REDSTONE_ORES = OreCollection.registerCollection("redstone");
+    public static final OreCollection DIAMOND_ORES = OreCollection.registerCollection("diamond");
+    public static final OreCollection EMERALD_ORES = OreCollection.registerCollection("emerald");
+    public static final OreCollection QUARTZ_ORES = OreCollection.registerCollection("quartz");
 }
