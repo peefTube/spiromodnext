@@ -1,4 +1,4 @@
-package com.github.peeftube.spiromodnext.datagen;
+package com.github.peeftube.spiromodnext.datagen.modules;
 
 import com.github.peeftube.spiromodnext.SpiroMod;
 import com.github.peeftube.spiromodnext.core.init.Registry;
