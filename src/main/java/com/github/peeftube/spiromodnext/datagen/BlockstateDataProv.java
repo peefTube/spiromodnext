@@ -122,8 +122,6 @@ public class BlockstateDataProv extends BlockStateProvider
                 default -> {}
             }
         }
-
-
     }
 
     // These are copied from BlockStateProvider. I do not claim ownership of these!

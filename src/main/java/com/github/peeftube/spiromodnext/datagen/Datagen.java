@@ -27,7 +27,7 @@ public class Datagen
 
         // generator.addProvider(true, new SMRecipeProv(output));
         generator.addProvider(true, new BlockstateDataProv(output, existingFileHelper));
-        // generator.addProvider(true, new SMItemModelProv(output, existingFileHelper));
+        generator.addProvider(true, new ItemModelDataProv(output, existingFileHelper));
         // generator.addProvider(true, new SMLangProv(output, "en_us"));
         // generator.addProvider(true, new SMLootModProv(output));
         // generator.addProvider(true, new SMLootTableProv(output));
