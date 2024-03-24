@@ -11,6 +11,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.client.model.generators.BlockModelBuilder;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
+import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import java.util.List;
@@ -92,48 +93,49 @@ public class BlockstateDataProv extends BlockStateProvider
             if (((i == 0 || i == 7) && ignoreStone) || ((i == 10) && ignoreNether))
             { continue; } // Do nothing, we're using a material which already uses this combination...
 
+            // Initialize this with a default case.
+            BlockModelBuilder ore = models().withExistingParent(name(blocks.get(i).get()), "cube");
+
             switch (i)
             {
-                case 0 -> modularOreBuilder(blocks.get(i).get(), stone, mat);
-                case 1 -> modularOreBuilder(blocks.get(i).get(), andesite, mat);
-                case 2 -> modularOreBuilder(blocks.get(i).get(), diorite, mat);
-                case 3 -> modularOreBuilder(blocks.get(i).get(), granite, mat);
-                case 4 -> modularOreBuilder(blocks.get(i).get(), calcite, mat);
-                case 5 -> modularOreBuilder(blocks.get(i).get(), smtSaSt, mat);
-                case 6 -> modularOreBuilder(blocks.get(i).get(), smtRedSaSt, mat);
-                case 7 -> modularOreBuilder(blocks.get(i).get(), deepslate, mat);
-                case 8 -> modularOreBuilder(blocks.get(i).get(), tuff, mat);
-                case 9 -> modularOreBuilder(blocks.get(i).get(), dripstone, mat);
+                case 0 -> ore = modularOreBuilder(blocks.get(i).get(), stone, mat);
+                case 1 -> ore = modularOreBuilder(blocks.get(i).get(), andesite, mat);
+                case 2 -> ore = modularOreBuilder(blocks.get(i).get(), diorite, mat);
+                case 3 -> ore = modularOreBuilder(blocks.get(i).get(), granite, mat);
+                case 4 -> ore = modularOreBuilder(blocks.get(i).get(), calcite, mat);
+                case 5 -> ore = modularOreBuilder(blocks.get(i).get(), smtSaSt, mat);
+                case 6 -> ore = modularOreBuilder(blocks.get(i).get(), smtRedSaSt, mat);
+                case 7 -> ore = modularOreBuilder(blocks.get(i).get(), deepslate, mat);
+                case 8 -> ore = modularOreBuilder(blocks.get(i).get(), tuff, mat);
+                case 9 -> ore = modularOreBuilder(blocks.get(i).get(), dripstone, mat);
                 case 10 ->
                 {
                     if (material.equals("gold"))
-                    { modularOreBuilder(blocks.get(i).get(), netherrack, oreOverlayHelper(material, true)); }
+                    { ore = modularOreBuilder(blocks.get(i).get(), netherrack, oreOverlayHelper(material, true)); }
                     else
-                    { modularOreBuilder(blocks.get(i).get(), netherrack, mat); }
+                    { ore = modularOreBuilder(blocks.get(i).get(), netherrack, mat); }
                 }
                 case 11 ->
                 {
                     if (material.equals("gold"))
-                    { modularOreBuilder(blocks.get(i).get(), basalt, oreOverlayHelper(material, true)); }
+                    { ore = modularOreBuilder(blocks.get(i).get(), basalt, oreOverlayHelper(material, true)); }
                     else
-                    { modularOreBuilder(blocks.get(i).get(), basalt, mat); }
+                    { ore = modularOreBuilder(blocks.get(i).get(), basalt, mat); }
                 }
-                case 12 -> modularOreBuilder(blocks.get(i).get(), endstone, mat);
+                case 12 -> ore = modularOreBuilder(blocks.get(i).get(), endstone, mat);
                 default -> {}
             }
+
+            getVariantBuilder(blocks.get(i).get()).partialState().setModels(new ConfiguredModel(ore));
         }
     }
 
     // These are copied from BlockStateProvider. I do not claim ownership of these!
     private ResourceLocation key(Block block)
-    {
-        return BuiltInRegistries.BLOCK.getKey(block);
-    }
+    { return BuiltInRegistries.BLOCK.getKey(block); }
 
     private String name(Block block)
-    {
-        return key(block).getPath();
-    }
+    { return key(block).getPath(); }
     // == Non-ownership block ends.
 
     // Translucent rendering.
