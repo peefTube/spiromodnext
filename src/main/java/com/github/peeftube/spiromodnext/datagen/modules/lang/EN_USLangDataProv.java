@@ -3,12 +3,17 @@ package com.github.peeftube.spiromodnext.datagen.modules.lang;
 import com.github.peeftube.spiromodnext.SpiroMod;
 import com.github.peeftube.spiromodnext.core.init.Registry;
 import com.github.peeftube.spiromodnext.core.init.registry.data.OreCollection;
+import com.github.peeftube.spiromodnext.core.init.registry.data.OreMaterial;
+import com.github.peeftube.spiromodnext.util.ore.BaseStone;
+import com.github.peeftube.spiromodnext.util.ore.Coupling;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 
 public class EN_USLangDataProv extends LanguageProvider
@@ -33,58 +38,59 @@ public class EN_USLangDataProv extends LanguageProvider
     // Ore set handler
     protected void oreParser(OreCollection set)
     {
-        // Flags for whether we should ignore block-model creation.
+        // Flags for what we should ignore.
         boolean ignoreStone = false; // For ignoring default stone, assumes true for deepslate as well
         boolean ignoreNether = false; // For ignoring default Netherrack ore
+        // NOTE: these two may be used in an OR statement to determine if this is a vanilla block. If so,
+        //       code should ignore the raw ore blocks.
+        // TODO: add handler for this!
 
         // Prepare set data.
-        String                          material = set.getName();
-        List<Supplier<? extends Block>> blocks   = set.getBlocks();
+        OreMaterial              material = set.getMat();
+        Map<BaseStone, Coupling> bulkData = set.getBulkData();
 
-        if (material.equals("coal") || material.equals("iron") || material.equals("copper") || material.equals("gold")
-                || material.equals("diamond") || material.equals("lapis") || material.equals("redstone")
-                || material.equals("emerald"))
+        if (material == OreMaterial.COAL || material == OreMaterial.IRON || material == OreMaterial.COPPER
+                || material == OreMaterial.GOLD || material == OreMaterial.LAPIS || material == OreMaterial.REDSTONE
+                || material == OreMaterial.EMERALD || material == OreMaterial.DIAMOND)
         { ignoreStone = true; }
 
-        if (material.equals("gold") || material.equals("quartz"))
+        if (material == OreMaterial.GOLD || material == OreMaterial.QUARTZ)
         { ignoreNether = true; }
 
-        for (int i = 0; i < blocks.size(); i++)
+        for (BaseStone s : BaseStone.values())
         {
-            /* NOTE:
-             * 0: default stone | 1: andesite | 2: diorite | 3: granite
-             * 4: calcite | 5: smooth sandstone | 6: smooth red sandstone
-             * 7: deepslate | 8: tuff | 9: dripstone | 10: netherrack
-             * 11: basalt (smooth) | 12: endstone
-             */
-            if (((i == 0 || i == 7) && ignoreStone) || ((i == 10) && ignoreNether))
+            if (((s == BaseStone.STONE || s == BaseStone.DEEPSLATE) && ignoreStone)
+                    || ((s == BaseStone.NETHERRACK) && ignoreNether))
             { continue; } // Do nothing, we're using a material which already uses this combination...
 
-            add(blocks.get(i).get(), generateOreBlockString(i, material));
+            // Make this code easier to read, PLEASE..
+            Block b = bulkData.get(s).block().get();
+            String mat = material.get();
+
+            // Generate a translation string and then add it to the translation set.
+            String readableMat = mat.substring(0, 1).toUpperCase() + mat.substring(1) + " Ore";
+            add(b, generateOreBlockString(s, readableMat));
         }
     }
 
     // Ore set String subroutine
-    protected String generateOreBlockString(int t, String mat)
+    protected String generateOreBlockString(BaseStone s, String readable)
     {
-        String readable = mat.substring(0, 1).toUpperCase() + mat.substring(1) + " Ore";
+        // OPTIONAL, BUT PREFERRED. Defaults to Stone string otherwise.
+        Map<BaseStone, String> genFormulae = new HashMap<>();
+        genFormulae.put(BaseStone.ANDESITE, readable + " (Andesite)");
+        genFormulae.put(BaseStone.DIORITE, readable + " (Diorite)");
+        genFormulae.put(BaseStone.GRANITE, readable + " (Granite)");
+        genFormulae.put(BaseStone.CALCITE, readable + " (Calcite)");
+        genFormulae.put(BaseStone.SMSAST, readable + " (Smooth Sandstone)");
+        genFormulae.put(BaseStone.SMRSAST, readable + " (Smooth Red Sandstone)");
+        genFormulae.put(BaseStone.DEEPSLATE, "Deepslate " + readable);
+        genFormulae.put(BaseStone.TUFF, readable + " (Tuff)");
+        genFormulae.put(BaseStone.DRIPSTONE, readable + " (Dripstone)");
+        genFormulae.put(BaseStone.NETHERRACK, "Nether " + readable);
+        genFormulae.put(BaseStone.BASALT, readable + " (Basalt)");
+        genFormulae.put(BaseStone.ENDSTONE, "Ender " + readable);
 
-        switch(t) // Case switch based on passed stone type (int format)
-        {
-            case 0 -> { return readable; }
-            case 1 -> { return readable + " (Andesite)"; }
-            case 2 -> { return readable + " (Diorite)"; }
-            case 3 -> { return readable + " (Granite)"; }
-            case 4 -> { return readable + " (Calcite)"; }
-            case 5 -> { return readable + " (Sandstone)"; }
-            case 6 -> { return readable + " (Red Sandstone)"; }
-            case 7 -> { return "Deepslate " + readable; }
-            case 8 -> { return readable + " (Tuff)"; }
-            case 9 -> { return readable + " (Dripstone)"; }
-            case 10 -> { return "Nether " + readable; }
-            case 11 -> { return readable + " (Basalt)"; }
-            case 12 -> { return "Ender " + readable; }
-            default -> { return "error:no translation for " + mat + ":" + t; }
-        }
+        return genFormulae.getOrDefault(s, readable);
     }
 }

@@ -3,6 +3,9 @@ package com.github.peeftube.spiromodnext.datagen.modules;
 import com.github.peeftube.spiromodnext.SpiroMod;
 import com.github.peeftube.spiromodnext.core.init.Registry;
 import com.github.peeftube.spiromodnext.core.init.registry.data.OreCollection;
+import com.github.peeftube.spiromodnext.core.init.registry.data.OreMaterial;
+import com.github.peeftube.spiromodnext.util.ore.BaseStone;
+import com.github.peeftube.spiromodnext.util.ore.Coupling;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
@@ -13,6 +16,7 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredItem;
 
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 
 public class ItemModelDataProv extends ItemModelProvider
@@ -46,34 +50,36 @@ public class ItemModelDataProv extends ItemModelProvider
     // Copied from BlockstateDataProv.java
     protected void oreSetDesign(OreCollection set)
     {
-        // Flags for whether we should ignore block-model creation.
+        // Flags for what we should ignore.
         boolean ignoreStone  = false; // For ignoring default stone, assumes true for deepslate as well
         boolean ignoreNether = false; // For ignoring default Netherrack ore
+        // NOTE: these two may be used in an OR statement to determine if this is a vanilla block. If so,
+        //       code should ignore the raw ore blocks and raw ore item.
+        // TODO: add handler for this!
 
         // Prepare set data.
-        String                          material = set.getName();
-        List<Supplier<? extends Item>>  items    = set.getItems();
+        OreMaterial              material = set.getMat();
+        Map<BaseStone, Coupling> bulkData = set.getBulkData();
 
-        if (material.equals("coal") || material.equals("iron") || material.equals("copper") || material.equals("gold")
-                || material.equals("diamond") || material.equals("lapis") || material.equals("redstone")
-                || material.equals("emerald"))
+        if (material == OreMaterial.COAL || material == OreMaterial.IRON || material == OreMaterial.COPPER
+                || material == OreMaterial.GOLD || material == OreMaterial.LAPIS || material == OreMaterial.REDSTONE
+                || material == OreMaterial.EMERALD || material == OreMaterial.DIAMOND)
         { ignoreStone = true; }
 
-        if (material.equals("gold") || material.equals("quartz"))
+        if (material == OreMaterial.GOLD || material == OreMaterial.QUARTZ)
         { ignoreNether = true; }
 
-        for (int i = 0; i < items.size(); i++)
+        for (BaseStone s : BaseStone.values())
         {
-            /* NOTE:
-             * 0: default stone | 1: andesite | 2: diorite | 3: granite
-             * 4: calcite | 5: smooth sandstone | 6: smooth red sandstone
-             * 7: deepslate | 8: tuff | 9: dripstone | 10: netherrack
-             * 11: basalt (smooth) | 12: endstone
-             */
-            if (((i == 0 || i == 7) && ignoreStone) || ((i == 10) && ignoreNether))
+            if (((s == BaseStone.STONE || s == BaseStone.DEEPSLATE) && ignoreStone)
+                    || ((s == BaseStone.NETHERRACK) && ignoreNether))
             { continue; } // Do nothing, we're using a combination which already has a BlockItem
 
-            blockParser((DeferredItem<Item>) items.get(i));
+            // Make this code easier to read, PLEASE..
+            Supplier<Item> i = bulkData.get(s).item();
+
+            // This part is extremely easy, fortunately.
+            blockParser((DeferredItem<Item>) i);
         }
     }
 

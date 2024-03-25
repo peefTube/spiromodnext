@@ -3,6 +3,9 @@ package com.github.peeftube.spiromodnext.datagen.modules;
 import com.github.peeftube.spiromodnext.SpiroMod;
 import com.github.peeftube.spiromodnext.core.init.Registry;
 import com.github.peeftube.spiromodnext.core.init.registry.data.OreCollection;
+import com.github.peeftube.spiromodnext.core.init.registry.data.OreMaterial;
+import com.github.peeftube.spiromodnext.util.ore.BaseStone;
+import com.github.peeftube.spiromodnext.util.ore.Coupling;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
@@ -15,36 +18,11 @@ import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 
 public class BlockstateDataProv extends BlockStateProvider
 {
-    // Vanilla block locations.
-    protected final ResourceLocation diorite = blockTexture(Blocks.DIORITE);
-    protected final ResourceLocation andesite = blockTexture(Blocks.ANDESITE);
-    protected final ResourceLocation calcite = blockTexture(Blocks.CALCITE);
-    protected final ResourceLocation granite = blockTexture(Blocks.GRANITE);
-    protected final ResourceLocation tuff = blockTexture(Blocks.TUFF);
-    protected final ResourceLocation dripstone = blockTexture(Blocks.DRIPSTONE_BLOCK);
-    protected final ResourceLocation smtSaSt = getTopTex(blockTexture(Blocks.SANDSTONE));
-    protected final ResourceLocation smtRedSaSt = getTopTex(blockTexture(Blocks.RED_SANDSTONE));
-    protected final ResourceLocation basalt = blockTexture(Blocks.SMOOTH_BASALT);
-    protected final ResourceLocation netherrack = blockTexture(Blocks.NETHERRACK);
-    protected final ResourceLocation stone = blockTexture(Blocks.STONE);
-    protected final ResourceLocation deepslate = blockTexture(Blocks.DEEPSLATE);
-    protected final ResourceLocation endstone = blockTexture(Blocks.END_STONE);
-
-    protected final ResourceLocation ironOverlay = new ResourceLocation(SpiroMod.MOD_ID, "block/overlays/iron_overlay");
-    protected final ResourceLocation coalOverlay = new ResourceLocation(SpiroMod.MOD_ID, "block/overlays/coal_overlay");
-    protected final ResourceLocation copperOverlay = new ResourceLocation(SpiroMod.MOD_ID, "block/overlays/copper_overlay");
-    protected final ResourceLocation goldOverlay = new ResourceLocation(SpiroMod.MOD_ID, "block/overlays/gold_overlay");
-    protected final ResourceLocation nethGoldOverlay = new ResourceLocation(SpiroMod.MOD_ID, "block/overlays/nether_gold_overlay");
-    protected final ResourceLocation lapisOverlay = new ResourceLocation(SpiroMod.MOD_ID, "block/overlays/lapis_overlay");
-    protected final ResourceLocation diamondOverlay = new ResourceLocation(SpiroMod.MOD_ID, "block/overlays/diamond_overlay");
-    protected final ResourceLocation redstoneOverlay = new ResourceLocation(SpiroMod.MOD_ID, "block/overlays/redstone_overlay");
-    protected final ResourceLocation emeraldOverlay = new ResourceLocation(SpiroMod.MOD_ID, "block/overlays/emerald_overlay");
-    protected final ResourceLocation quartzOverlay = new ResourceLocation(SpiroMod.MOD_ID, "block/overlays/quartz_overlay");
-
     public BlockstateDataProv(PackOutput output, ExistingFileHelper eFH)
     { super(output, SpiroMod.MOD_ID, eFH); }
 
@@ -67,66 +45,57 @@ public class BlockstateDataProv extends BlockStateProvider
         // Flags for whether we should ignore block-model creation.
         boolean ignoreStone = false; // For ignoring default stone, assumes true for deepslate as well
         boolean ignoreNether = false; // For ignoring default Netherrack ore
+        // NOTE: these two may be used in an OR statement to determine if this is a vanilla block. If so,
+        //       code should ignore the raw ore blocks.
+        // TODO: add handler for this!
 
         // Prepare set data.
-        String material = set.getName();
-        List<Supplier<? extends Block>> blocks = set.getBlocks();
+        OreMaterial              material = set.getMat();
+        Map<BaseStone, Coupling> bulkData = set.getBulkData();
 
-        if (material.equals("coal") || material.equals("iron") || material.equals("copper") || material.equals("gold")
-                || material.equals("diamond") || material.equals("lapis") || material.equals("redstone")
-                || material.equals("emerald"))
+        if (material == OreMaterial.COAL || material == OreMaterial.IRON || material == OreMaterial.COPPER
+                || material == OreMaterial.GOLD || material == OreMaterial.LAPIS || material == OreMaterial.REDSTONE
+                || material == OreMaterial.EMERALD || material == OreMaterial.DIAMOND)
         { ignoreStone = true; }
 
-        if (material.equals("gold") || material.equals("quartz"))
+        if (material == OreMaterial.GOLD || material == OreMaterial.QUARTZ)
         { ignoreNether = true; }
         
-        ResourceLocation mat = oreOverlayHelper(material);
+        ResourceLocation mat = oreOverlayHelper(material.get());
 
-        for (int i = 0; i < blocks.size(); i++)
+        for (BaseStone s : BaseStone.values())
         {
-            /* NOTE:
-             * 0: default stone | 1: andesite | 2: diorite | 3: granite
-             * 4: calcite | 5: smooth sandstone | 6: smooth red sandstone
-             * 7: deepslate | 8: tuff | 9: dripstone | 10: netherrack
-             * 11: basalt (smooth) | 12: endstone
-             */
-            if (((i == 0 || i == 7) && ignoreStone) || ((i == 10) && ignoreNether))
+            if (((s == BaseStone.STONE || s == BaseStone.DEEPSLATE) && ignoreStone)
+                    || ((s == BaseStone.NETHERRACK) && ignoreNether))
             { continue; } // Do nothing, we're using a material which already uses this combination...
 
-            // Initialize this with a default case.
-            BlockModelBuilder ore = models().withExistingParent(name(blocks.get(i).get()), "cube");
+            // Make this code easier to read, PLEASE..
+            Block b = bulkData.get(s).block().get();
+            ResourceLocation r = blockTexture(s.getAssociatedBlock().get());
 
-            switch (i)
+            // Quick sanity check for smooth sandstone and related
+            switch(s)
             {
-                case 0 -> ore = modularOreBuilder(blocks.get(i).get(), stone, mat);
-                case 1 -> ore = modularOreBuilder(blocks.get(i).get(), andesite, mat);
-                case 2 -> ore = modularOreBuilder(blocks.get(i).get(), diorite, mat);
-                case 3 -> ore = modularOreBuilder(blocks.get(i).get(), granite, mat);
-                case 4 -> ore = modularOreBuilder(blocks.get(i).get(), calcite, mat);
-                case 5 -> ore = modularOreBuilder(blocks.get(i).get(), smtSaSt, mat);
-                case 6 -> ore = modularOreBuilder(blocks.get(i).get(), smtRedSaSt, mat);
-                case 7 -> ore = modularOreBuilder(blocks.get(i).get(), deepslate, mat);
-                case 8 -> ore = modularOreBuilder(blocks.get(i).get(), tuff, mat);
-                case 9 -> ore = modularOreBuilder(blocks.get(i).get(), dripstone, mat);
-                case 10 ->
-                {
-                    if (material.equals("gold"))
-                    { ore = modularOreBuilder(blocks.get(i).get(), netherrack, oreOverlayHelper(material, true)); }
-                    else
-                    { ore = modularOreBuilder(blocks.get(i).get(), netherrack, mat); }
-                }
-                case 11 ->
-                {
-                    if (material.equals("gold"))
-                    { ore = modularOreBuilder(blocks.get(i).get(), basalt, oreOverlayHelper(material, true)); }
-                    else
-                    { ore = modularOreBuilder(blocks.get(i).get(), basalt, mat); }
-                }
-                case 12 -> ore = modularOreBuilder(blocks.get(i).get(), endstone, mat);
-                default -> {}
+                case SMSAST -> r = getTopTex(blockTexture(Blocks.SANDSTONE));
+                case SMRSAST -> r = getTopTex(blockTexture(Blocks.RED_SANDSTONE));
             }
 
-            getVariantBuilder(blocks.get(i).get()).partialState().setModels(new ConfiguredModel(ore));
+            // Initialize this.
+            BlockModelBuilder ore;
+
+            switch (s)
+            {
+                default -> ore = modularOreBuilder(b, r, mat);
+                case NETHERRACK, BASALT ->
+                {
+                    if (material.equals("gold"))
+                    { ore = modularOreBuilder(b, r, oreOverlayHelper(material.get(), true)); }
+                    else
+                    { ore = modularOreBuilder(b, r, mat); }
+                }
+            }
+
+            getVariantBuilder(b).partialState().setModels(new ConfiguredModel(ore));
         }
     }
 

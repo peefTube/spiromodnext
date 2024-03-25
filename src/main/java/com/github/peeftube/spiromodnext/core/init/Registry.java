@@ -4,6 +4,7 @@ import com.github.peeftube.spiromodnext.SpiroMod;
 import com.github.peeftube.spiromodnext.core.TierMod;
 import com.github.peeftube.spiromodnext.core.init.registry.data.BlockToughness;
 import com.github.peeftube.spiromodnext.core.init.registry.data.OreCollection;
+import com.github.peeftube.spiromodnext.core.init.registry.data.OreMaterial;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -66,6 +67,8 @@ public class Registry
             BlockBehaviour.Properties.of().strength(BlockToughness.WEAK.get()).sound(SoundType.NETHERRACK);
     public static final BlockBehaviour.Properties BASALT_BASED_ORE =
             BlockBehaviour.Properties.of().strength(BlockToughness.WEAK.get()).sound(SoundType.BASALT);
+    public static final BlockBehaviour.Properties RAW_ORE =
+            BlockBehaviour.Properties.of().strength(BlockToughness.NORMAL.get()).sound(SoundType.METAL);
 
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(SpiroMod.MOD_ID);
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(SpiroMod.MOD_ID);
@@ -78,13 +81,13 @@ public class Registry
     public static <I extends Item> DeferredItem<I> regSimpleBlockItem(DeferredBlock<Block> block)
     { return (DeferredItem<I>) ITEMS.registerSimpleBlockItem(block); }
 
-    public static final OreCollection COAL_ORES = OreCollection.registerCollection("coal");
-    public static final OreCollection IRON_ORES = OreCollection.registerCollection("iron");
-    public static final OreCollection COPPER_ORES = OreCollection.registerCollection("copper");
-    public static final OreCollection GOLD_ORES = OreCollection.registerCollection("gold");
-    public static final OreCollection LAPIS_ORES = OreCollection.registerCollection("lapis");
-    public static final OreCollection REDSTONE_ORES = OreCollection.registerCollection("redstone");
-    public static final OreCollection DIAMOND_ORES = OreCollection.registerCollection("diamond");
-    public static final OreCollection EMERALD_ORES = OreCollection.registerCollection("emerald");
-    public static final OreCollection QUARTZ_ORES = OreCollection.registerCollection("quartz");
+    public static final OreCollection COAL_ORES = OreCollection.registerCollection(OreMaterial.COAL);
+    public static final OreCollection IRON_ORES = OreCollection.registerCollection(OreMaterial.IRON);
+    public static final OreCollection COPPER_ORES = OreCollection.registerCollection(OreMaterial.COPPER);
+    public static final OreCollection GOLD_ORES = OreCollection.registerCollection(OreMaterial.GOLD);
+    public static final OreCollection LAPIS_ORES = OreCollection.registerCollection(OreMaterial.LAPIS);
+    public static final OreCollection REDSTONE_ORES = OreCollection.registerCollection(OreMaterial.REDSTONE);
+    public static final OreCollection DIAMOND_ORES = OreCollection.registerCollection(OreMaterial.DIAMOND);
+    public static final OreCollection EMERALD_ORES = OreCollection.registerCollection(OreMaterial.EMERALD);
+    public static final OreCollection QUARTZ_ORES = OreCollection.registerCollection(OreMaterial.QUARTZ);
 }
