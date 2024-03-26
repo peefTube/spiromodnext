@@ -79,7 +79,8 @@ public record OreCollection(OreMaterial material, Map<BaseStone, Coupling> bulkD
 
     private static Coupling createNew(BaseStone b, String m, int li)
     {
-        Supplier<Block> block = Registry.regBlock(b.get() + m, () -> new Block(b.getProps().lightLevel(s -> li)));
+        Supplier<Block> block = Registry.regBlock(b.get() + m, () -> new Block(b.getProps().noOcclusion()
+                                                                                .lightLevel(s -> li)));
         Supplier<Item>  item  = Registry.regSimpleBlockItem((DeferredBlock<Block>) block);
 
         return new Coupling(block, item);
