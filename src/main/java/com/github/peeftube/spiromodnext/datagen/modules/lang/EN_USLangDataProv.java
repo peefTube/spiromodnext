@@ -26,16 +26,11 @@ public class EN_USLangDataProv extends LanguageProvider
     @Override
     protected void addTranslations()
     {
-        oreParser(Registry.COAL_ORES);
-        oreParser(Registry.IRON_ORES);
-        oreParser(Registry.COPPER_ORES);
-        oreParser(Registry.GOLD_ORES);
-        oreParser(Registry.LAPIS_ORES);
-        oreParser(Registry.REDSTONE_ORES);
-        oreParser(Registry.DIAMOND_ORES);
-        oreParser(Registry.EMERALD_ORES);
-        oreParser(Registry.QUARTZ_ORES);
-        oreParser(Registry.RUBY_ORES);
+        // Ores
+        for (OreCollection ore : OreCollection.ORE_COLLECTIONS) { oreParser(ore); }
+
+        // Creative tabs
+        add(Registry.TAB_TITLE_KEY_FORMULAIC + ".minerals_tab", "Ores and Raw Minerals");
     }
 
     // Ore set handler

@@ -34,16 +34,7 @@ public class BlockstateDataProv extends BlockStateProvider
     @Override
     protected void registerStatesAndModels()
     {
-        oreSetDesign(Registry.COAL_ORES);
-        oreSetDesign(Registry.IRON_ORES);
-        oreSetDesign(Registry.COPPER_ORES);
-        oreSetDesign(Registry.GOLD_ORES);
-        oreSetDesign(Registry.DIAMOND_ORES);
-        oreSetDesign(Registry.LAPIS_ORES);
-        oreSetDesign(Registry.REDSTONE_ORES);
-        oreSetDesign(Registry.EMERALD_ORES);
-        oreSetDesign(Registry.QUARTZ_ORES);
-        oreSetDesign(Registry.RUBY_ORES);
+        for (OreCollection ore : OreCollection.ORE_COLLECTIONS) { oreSetDesign(ore); }
     }
 
     protected void oreSetDesign(OreCollection set)
