@@ -2,15 +2,26 @@ package com.github.peeftube.spiromodnext.core.init.registry.data;
 
 public enum OreMaterial
 {
-    COAL("coal"), IRON("iron"), COPPER("copper"), GOLD("gold"),
-    LAPIS("lapis"), REDSTONE("redstone"), EMERALD("emerald"), DIAMOND("diamond"),
-    QUARTZ("quartz");
+    // Vanilla.
+    COAL("coal", false), IRON("iron", false), COPPER("copper", false),
+    GOLD("gold", false), LAPIS("lapis", true),
+    REDSTONE("redstone", true), EMERALD("emerald", true), DIAMOND("diamond", true),
+    QUARTZ("quartz", true),
+
+    // Modded.
+    RUBY("ruby", true);
 
     private final String name;
 
-    OreMaterial(String name)
-    { this.name = name; }
+    // NOTE: May not actually be a gem, this just "asks" whether the material behaves similarly.
+    private final boolean isGem;
+
+    OreMaterial(String name, boolean isGem)
+    { this.name = name; this.isGem = isGem; }
 
     public String get()
     { return name; }
+
+    public boolean isGem()
+    { return isGem; }
 }

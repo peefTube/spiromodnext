@@ -89,12 +89,14 @@ public interface OreUtilities
         else
         {
             Coupling        c;
-            Supplier<Block> b = Registry.regBlock("raw_" + material.get() + "_block",
+            String rawMineral = material.isGem() ? "" : "raw_";
+
+            Supplier<Block> b = Registry.regBlock(rawMineral + material.get() + "_block",
                     () -> new Block(Registry.RAW_ORE.lightLevel(s -> li)));
             Supplier<Item> bi = Registry.regSimpleBlockItem((DeferredBlock<Block>) b);
             c = new Coupling(b, bi);
 
-            return new RawCoupling(c, Registry.ITEMS.register("raw_" + material.get(),
+            return new RawCoupling(c, Registry.ITEMS.register(rawMineral + material.get(),
                     () -> new Item(new Item.Properties())));
         }
     }

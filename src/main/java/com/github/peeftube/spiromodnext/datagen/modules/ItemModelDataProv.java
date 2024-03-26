@@ -11,6 +11,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -44,6 +45,7 @@ public class ItemModelDataProv extends ItemModelProvider
         oreSetDesign(Registry.REDSTONE_ORES);
         oreSetDesign(Registry.EMERALD_ORES);
         oreSetDesign(Registry.QUARTZ_ORES);
+        oreSetDesign(Registry.RUBY_ORES);
     }
 
     // Ore BlockItem handler subroutine
@@ -55,7 +57,6 @@ public class ItemModelDataProv extends ItemModelProvider
         boolean ignoreNether = false; // For ignoring default Netherrack ore
         // NOTE: these two may be used in an OR statement to determine if this is a vanilla block. If so,
         //       code should ignore the raw ore blocks and raw ore item.
-        // TODO: add handler for this!
 
         // Prepare set data.
         OreMaterial              material = set.getMat();
@@ -81,6 +82,18 @@ public class ItemModelDataProv extends ItemModelProvider
             // This part is extremely easy, fortunately.
             blockParser((DeferredItem<Item>) i);
         }
+
+        // Raw block and item; assume not vanilla.
+        if (!(ignoreStone || ignoreNether))
+        {
+            // Make this code easier to read, PLEASE..
+            Supplier<Item> b = set.getRawOre().getCoupling().getItem();
+            Supplier<Item> i = set.getRawOre().getRawItem();
+
+            // This part is extremely easy, fortunately.
+            blockParser((DeferredItem<Item>) b);
+            itemParser((DeferredItem<Item>) i);
+        }
     }
 
     // Block item model creation subroutine
@@ -88,5 +101,32 @@ public class ItemModelDataProv extends ItemModelProvider
     {
         String path = "block/" + BuiltInRegistries.ITEM.getKey(item.get()).getPath();
         withExistingParent(BuiltInRegistries.ITEM.getKey(item.get()).getPath(), modLoc(path));
+    }
+
+    private ItemModelBuilder itemParser(DeferredItem<Item> item)
+    { return itemParser(item, 0, item.getId().getPath()); }
+
+    private ItemModelBuilder itemParser(DeferredItem<Item> item, int type)
+    { return itemParser(item, type, item.getId().getPath()); }
+
+    private ItemModelBuilder itemParser(DeferredItem<Item> item, int type, String imageName)
+    {
+        switch(type)
+        {
+            case 1 ->
+            {
+                // Handheld item.
+                return withExistingParent(item.getId().getPath(),
+                        new ResourceLocation("item/handheld")).texture("layer0",
+                        new ResourceLocation(SpiroMod.MOD_ID, "item/" + imageName));
+            }
+            default ->
+            {
+                // Assume basic type.
+                return withExistingParent(item.getId().getPath(),
+                        new ResourceLocation("item/generated")).texture("layer0",
+                        new ResourceLocation(SpiroMod.MOD_ID, "item/" + imageName));
+            }
+        }
     }
 }

@@ -30,16 +30,15 @@ public class InitializeIBRT
         oreSettings(Registry.EMERALD_ORES);
         oreSettings(Registry.DIAMOND_ORES);
         oreSettings(Registry.QUARTZ_ORES);
+        oreSettings(Registry.RUBY_ORES);
     }
 
     protected static void oreSettings(OreCollection set)
     {
-        // Flags for whether we should ignore block-model creation.
+        // Flags for what we should ignore.
         boolean ignoreStone = false; // For ignoring default stone, assumes true for deepslate as well
         boolean ignoreNether = false; // For ignoring default Netherrack ore
-        // NOTE: these two may be used in an OR statement to determine if this is a vanilla block. If so,
-        //       code should ignore the raw ore blocks.
-        // TODO: add handler for this!
+        // DO NOT include packed ore blocks in this unless you want a headache.
 
         // Prepare set data.
         OreMaterial              material = set.getMat();
@@ -62,6 +61,9 @@ public class InitializeIBRT
             // Make this code easier to read, PLEASE..
             Block            b = bulkData.get(s).block().get();
 
+            // I don't know why, I don't want to know why, I shouldn't have to know why, but without this
+            // logger call this code doesn't seem to want to work properly.
+            // Oracle pls fix
             SpiroMod.LOGGER.info("RUNNING: " + s.get().toUpperCase() + material.get().toUpperCase());
 
             // Change render type status.

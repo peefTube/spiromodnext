@@ -90,4 +90,5 @@ public class Registry
     public static final OreCollection DIAMOND_ORES = OreCollection.registerCollection(OreMaterial.DIAMOND);
     public static final OreCollection EMERALD_ORES = OreCollection.registerCollection(OreMaterial.EMERALD);
     public static final OreCollection QUARTZ_ORES = OreCollection.registerCollection(OreMaterial.QUARTZ);
+    public static final OreCollection RUBY_ORES = OreCollection.registerCollection(OreMaterial.RUBY);
 }

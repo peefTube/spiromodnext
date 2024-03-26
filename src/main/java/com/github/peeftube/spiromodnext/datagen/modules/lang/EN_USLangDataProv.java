@@ -8,8 +8,10 @@ import com.github.peeftube.spiromodnext.util.ore.BaseStone;
 import com.github.peeftube.spiromodnext.util.ore.Coupling;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.data.LanguageProvider;
+import net.neoforged.neoforge.registries.DeferredItem;
 
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +35,7 @@ public class EN_USLangDataProv extends LanguageProvider
         oreParser(Registry.DIAMOND_ORES);
         oreParser(Registry.EMERALD_ORES);
         oreParser(Registry.QUARTZ_ORES);
+        oreParser(Registry.RUBY_ORES);
     }
 
     // Ore set handler
@@ -43,7 +46,6 @@ public class EN_USLangDataProv extends LanguageProvider
         boolean ignoreNether = false; // For ignoring default Netherrack ore
         // NOTE: these two may be used in an OR statement to determine if this is a vanilla block. If so,
         //       code should ignore the raw ore blocks.
-        // TODO: add handler for this!
 
         // Prepare set data.
         OreMaterial              material = set.getMat();
@@ -70,6 +72,25 @@ public class EN_USLangDataProv extends LanguageProvider
             // Generate a translation string and then add it to the translation set.
             String readableMat = mat.substring(0, 1).toUpperCase() + mat.substring(1) + " Ore";
             add(b, generateOreBlockString(s, readableMat));
+        }
+
+        // Raw block and item; assume not vanilla.
+        if (!(ignoreStone || ignoreNether))
+        {
+            // Make this code easier to read, PLEASE..
+            Block b = set.getRawOre().getCoupling().getBlock().get();
+            Item i  = set.getRawOre().getRawItem().get();
+            String mat = material.get();
+
+            // Readable block String:
+            String rawMineral = material.isGem() ? "" : "Raw ";
+            String readableBlockMat = "Block of " + mat.substring(0, 1).toUpperCase() + mat.substring(1);
+            add(b, rawMineral + readableBlockMat);
+
+            // Readable item String:
+            String readableMat = mat.substring(0, 1).toUpperCase() + mat.substring(1) +
+                    (material.isGem() ? "" : " Chunk");
+            add(i, readableMat);
         }
     }
 

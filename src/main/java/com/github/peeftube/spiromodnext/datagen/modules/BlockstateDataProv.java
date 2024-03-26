@@ -12,6 +12,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.client.ChunkRenderTypeSet;
@@ -19,6 +20,7 @@ import net.neoforged.neoforge.client.model.generators.BlockModelBuilder;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.registries.DeferredItem;
 
 import java.util.List;
 import java.util.Map;
@@ -41,6 +43,7 @@ public class BlockstateDataProv extends BlockStateProvider
         oreSetDesign(Registry.REDSTONE_ORES);
         oreSetDesign(Registry.EMERALD_ORES);
         oreSetDesign(Registry.QUARTZ_ORES);
+        oreSetDesign(Registry.RUBY_ORES);
     }
 
     protected void oreSetDesign(OreCollection set)
@@ -50,7 +53,6 @@ public class BlockstateDataProv extends BlockStateProvider
         boolean ignoreNether = false; // For ignoring default Netherrack ore
         // NOTE: these two may be used in an OR statement to determine if this is a vanilla block. If so,
         //       code should ignore the raw ore blocks.
-        // TODO: add handler for this!
 
         // Prepare set data.
         OreMaterial              material = set.getMat();
@@ -91,13 +93,26 @@ public class BlockstateDataProv extends BlockStateProvider
                 default -> ore = modularOreBuilder(b, r, mat);
                 case NETHERRACK, BASALT ->
                 {
-                    if (material.equals("gold"))
+                    if (material == OreMaterial.GOLD)
                     { ore = modularOreBuilder(b, r, oreOverlayHelper(material.get(), true)); }
                     else
                     { ore = modularOreBuilder(b, r, mat); }
                 }
             }
 
+            getVariantBuilder(b).partialState().setModels(new ConfiguredModel(ore));
+        }
+
+        // Raw block and item; assume not vanilla.
+        if (!(ignoreStone || ignoreNether))
+        {
+            // Make this code easier to read, PLEASE..
+            Block b = set.getRawOre().getCoupling().getBlock().get();
+            ResourceLocation r = blockTexture(b);
+
+            // This part is extremely easy, fortunately.
+            // Initialize this raw ore block and add it to the model set.
+            BlockModelBuilder ore = packedOreBlockBuilder(b, r);
             getVariantBuilder(b).partialState().setModels(new ConfiguredModel(ore));
         }
     }
@@ -164,5 +179,12 @@ public class BlockstateDataProv extends BlockStateProvider
                                .renderType(renTranslucent);
             }
         }
+    }
+
+    protected BlockModelBuilder packedOreBlockBuilder(Block block, ResourceLocation tex)
+    {
+        return models().withExistingParent(name(block), "cube")
+                       .texture("base", tex).element().cube("#base").end()
+                       .texture("particle", tex);
     }
 }
