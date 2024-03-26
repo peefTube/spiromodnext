@@ -1,10 +1,12 @@
 package com.github.peeftube.spiromodnext.core.init.registry.data;
 
 import com.github.peeftube.spiromodnext.core.init.Registry;
+import com.github.peeftube.spiromodnext.util.SpiroTags;
 import com.github.peeftube.spiromodnext.util.ore.BaseStone;
 import com.github.peeftube.spiromodnext.util.ore.Coupling;
 import com.github.peeftube.spiromodnext.util.ore.OreUtilities;
 import com.github.peeftube.spiromodnext.util.ore.RawCoupling;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
@@ -18,7 +20,7 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public record OreCollection(OreMaterial material, Map<BaseStone, Coupling> bulkData,
-                            RawCoupling rawOreCoupling) implements OreUtilities
+                            RawCoupling rawOreCoupling, TagKey<Block> oreTag) implements OreUtilities
 {
     public static List<OreCollection> ORE_COLLECTIONS = new ArrayList<>();
 
@@ -33,10 +35,8 @@ public record OreCollection(OreMaterial material, Map<BaseStone, Coupling> bulkD
         // Set up the map.
         Map<BaseStone, Coupling> mappings = new HashMap<>();
 
-        for(int i = 0; i < BaseStone.values().length; i++)
+        for(BaseStone s : BaseStone.values())
         {
-            BaseStone s = BaseStone.values()[i];
-
             switch(s)
             {
                 case STONE, DEEPSLATE ->
@@ -60,8 +60,9 @@ public record OreCollection(OreMaterial material, Map<BaseStone, Coupling> bulkD
                 default -> { mappings.put(s, createNew(s, oreName, li)); }
             }
         }
+        TagKey<Block> tag = SpiroTags.Blocks.tag("spiro_" + material.get() + "_ore");
 
-        OreCollection collection = new OreCollection(material, mappings, OreUtilities.determineRawOre(material, li));
+        OreCollection collection = new OreCollection(material, mappings, OreUtilities.determineRawOre(material, li), tag);
         ORE_COLLECTIONS.add(collection); return collection;
     }
 
@@ -94,4 +95,7 @@ public record OreCollection(OreMaterial material, Map<BaseStone, Coupling> bulkD
     
     public RawCoupling getRawOre()
     { return rawOreCoupling; }
+
+    public TagKey<Block> getOreTag()
+    { return oreTag; }
 }

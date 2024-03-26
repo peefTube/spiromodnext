@@ -4,6 +4,7 @@ import com.github.peeftube.spiromodnext.SpiroMod;
 import com.github.peeftube.spiromodnext.datagen.modules.BlockstateDataProv;
 import com.github.peeftube.spiromodnext.datagen.modules.ItemModelDataProv;
 import com.github.peeftube.spiromodnext.datagen.modules.lang.EN_USLangDataProv;
+import com.github.peeftube.spiromodnext.datagen.modules.tags.BlockTagDataProv;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -21,8 +22,7 @@ public class Datagen
         PackOutput         output             = generator.getPackOutput();
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 
-        // SMBlockTagProv blockTags = new SMBlockTagProv(output, event.getLookupProvider(), existingFileHelper);
-        // generator.addProvider(true, blockTags);
+        generator.addProvider(true, new BlockTagDataProv(output, event.getLookupProvider(), existingFileHelper));
         // generator.addProvider(true, new SMItemTagProv(output, event.getLookupProvider(), blockTags, existingFileHelper));
         // generator.addProvider(true, new SMBiomeTagProv(output, event.getLookupProvider(), existingFileHelper));
 
