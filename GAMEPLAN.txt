@@ -2,7 +2,7 @@ GAME PLAN:
     v1.0.X: GROUND ZERO
         X:: Set up webhook for Discord-GitHub integration.
         X:: Port redesigned tiering system from old mod project.
-        _:: Port modified stock ore block system.
+        X:: Port modified stock ore block system.
         _:: Port worldgen modifications and systems.
     v1.1.X: FOUNDATION - FARMING
         _:: Add new crops: flax, onion, turnip, peanuts
