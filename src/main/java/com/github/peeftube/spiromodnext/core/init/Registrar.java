@@ -6,6 +6,7 @@ import com.github.peeftube.spiromodnext.core.init.creativetabs.CreativeTabProces
 import com.github.peeftube.spiromodnext.core.init.registry.data.BlockToughness;
 import com.github.peeftube.spiromodnext.core.init.registry.data.OreCollection;
 import com.github.peeftube.spiromodnext.core.init.registry.data.OreMaterial;
+import com.github.peeftube.spiromodnext.util.MinMax;
 import com.github.peeftube.spiromodnext.util.SpiroTags;
 import com.github.peeftube.spiromodnext.util.ore.PrereqTier;
 import net.minecraft.core.registries.Registries;
@@ -94,13 +95,17 @@ public class Registrar
 
     public static final OreCollection COAL_ORES = OreCollection.registerCollection(OreMaterial.COAL, PrereqTier.WOOD);
     public static final OreCollection IRON_ORES = OreCollection.registerCollection(OreMaterial.IRON, PrereqTier.STONE);
-    public static final OreCollection COPPER_ORES = OreCollection.registerCollection(OreMaterial.COPPER, PrereqTier.STONE);
+    public static final OreCollection COPPER_ORES = OreCollection.registerCollection(OreMaterial.COPPER,
+            new MinMax(2, 5), PrereqTier.STONE);
     public static final OreCollection GOLD_ORES = OreCollection.registerCollection(OreMaterial.GOLD, PrereqTier.IRON);
-    public static final OreCollection LAPIS_ORES = OreCollection.registerCollection(OreMaterial.LAPIS, PrereqTier.IRON);
-    public static final OreCollection REDSTONE_ORES = OreCollection.registerCollection(OreMaterial.REDSTONE, PrereqTier.IRON);
+    public static final OreCollection LAPIS_ORES = OreCollection.registerCollection(OreMaterial.LAPIS,
+            new MinMax(2, 5), PrereqTier.IRON);
+    public static final OreCollection REDSTONE_ORES = OreCollection.registerCollection(OreMaterial.REDSTONE,
+            new MinMax(2, 5), PrereqTier.IRON);
     public static final OreCollection DIAMOND_ORES = OreCollection.registerCollection(OreMaterial.DIAMOND, PrereqTier.IRON);
     public static final OreCollection EMERALD_ORES = OreCollection.registerCollection(OreMaterial.EMERALD, PrereqTier.IRON);
-    public static final OreCollection QUARTZ_ORES = OreCollection.registerCollection(OreMaterial.QUARTZ, PrereqTier.STONE);
+    public static final OreCollection QUARTZ_ORES = OreCollection.registerCollection(OreMaterial.QUARTZ,
+            new MinMax(2, 5), PrereqTier.STONE);
     public static final OreCollection RUBY_ORES = OreCollection.registerCollection(OreMaterial.RUBY, PrereqTier.IRON);
 
     // Language key for creative tabs
