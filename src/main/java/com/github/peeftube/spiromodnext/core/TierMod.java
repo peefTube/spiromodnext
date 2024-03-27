@@ -1,5 +1,6 @@
 package com.github.peeftube.spiromodnext.core;
 
+import com.github.peeftube.spiromodnext.core.init.Registrar;
 import com.google.common.collect.Multimap;
 import net.minecraft.Util;
 import net.minecraft.resources.ResourceLocation;
@@ -72,15 +73,17 @@ public class TierMod
 
             // PRIMITIVE AGE
             processTier(edges, Tiers.WOOD, wood, List.of(), List.of(stone));
+            TierSortingRegistry.registerTier(Registrar.TIER_FLINT, Registrar.flint, List.of(wood), List.of(stone));
 
             // STONE AGE
-            processTier(edges, Tiers.STONE, stone, List.of(wood), List.of(iron));
+            processTier(edges, Tiers.STONE, stone, List.of(Registrar.flint), List.of(Registrar.copper));
 
             // BRONZE AGE
             // Early metals and first alloys: brass and bronze
+            TierSortingRegistry.registerTier(Registrar.TIER_COPPER, Registrar.copper, List.of(stone), List.of(iron));
 
             // IRON AGE
-            processTier(edges, Tiers.IRON, iron, List.of(stone), List.of(gold));
+            processTier(edges, Tiers.IRON, iron, List.of(Registrar.copper), List.of(gold));
             processTier(edges, Tiers.GOLD, gold, List.of(iron), List.of(diamond));
 
             // MEDIEVAL AGE

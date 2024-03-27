@@ -1,17 +1,16 @@
 package com.github.peeftube.spiromodnext.core.init.registry.data;
 
-import com.github.peeftube.spiromodnext.core.init.Registry;
+import com.github.peeftube.spiromodnext.core.init.Registrar;
+import com.github.peeftube.spiromodnext.util.MinMax;
 import com.github.peeftube.spiromodnext.util.SpiroTags;
-import com.github.peeftube.spiromodnext.util.ore.BaseStone;
-import com.github.peeftube.spiromodnext.util.ore.Coupling;
-import com.github.peeftube.spiromodnext.util.ore.OreUtilities;
-import com.github.peeftube.spiromodnext.util.ore.RawCoupling;
+import com.github.peeftube.spiromodnext.util.ore.*;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RedStoneOreBlock;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraft.world.level.storage.loot.providers.number.NumberProvider;
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.neoforged.neoforge.registries.DeferredBlock;
 
 import java.util.ArrayList;
@@ -21,14 +20,32 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public record OreCollection(OreMaterial material, Map<BaseStone, Coupling> bulkData,
-                            RawCoupling rawOreCoupling, TagKey<Block> oreTag) implements OreUtilities
+                            RawCoupling rawOreCoupling, TagKey<Block> oreTag, PrereqTier neededTier,
+                            NumberProvider oreDropData)
+        implements OreUtilities
 {
     public static List<OreCollection> ORE_COLLECTIONS = new ArrayList<>();
 
     public static OreCollection registerCollection(OreMaterial material)
-    { return registerCollection(material, 0); }
+    { return registerCollection(material, PrereqTier.NONE); }
 
-    public static OreCollection registerCollection(OreMaterial material, int lightEmissionLevel)
+    public static OreCollection registerCollection(OreMaterial material, int li)
+    { return registerCollection(material, li, PrereqTier.NONE); }
+
+    public static OreCollection registerCollection(OreMaterial material, MinMax minMax)
+    { return registerCollection(material, minMax, PrereqTier.NONE); }
+
+    public static OreCollection registerCollection(OreMaterial material, PrereqTier neededTier)
+    { return registerCollection(material, 0, new MinMax(1, 1), neededTier); }
+
+    public static OreCollection registerCollection(OreMaterial material, int li, PrereqTier neededTier)
+    { return registerCollection(material, li, new MinMax(1, 1), neededTier); }
+
+    public static OreCollection registerCollection(OreMaterial material, MinMax minMax, PrereqTier neededTier)
+    { return registerCollection(material, 0, minMax, neededTier); }
+
+    public static OreCollection registerCollection(OreMaterial material, int lightEmissionLevel, MinMax minMax,
+            PrereqTier neededTier)
     {
         String oreName = material.get() + "_ore";
         int li = lightEmissionLevel;
@@ -63,7 +80,11 @@ public record OreCollection(OreMaterial material, Map<BaseStone, Coupling> bulkD
         }
         TagKey<Block> tag = SpiroTags.Blocks.tag("spiro_" + material.get() + "_ore");
 
-        OreCollection collection = new OreCollection(material, mappings, OreUtilities.determineRawOre(material, li), tag);
+        NumberProvider oreDrops = (MinMax.getMin() == MinMax.getMax()) ? ConstantValue.exactly(MinMax.getMin()) :
+                UniformGenerator.between(MinMax.getMin(), MinMax.getMax());
+
+        OreCollection collection = new OreCollection(material, mappings, OreUtilities.determineRawOre(material, li),
+                tag, neededTier, oreDrops);
         ORE_COLLECTIONS.add(collection); return collection;
     }
 
@@ -88,8 +109,8 @@ public record OreCollection(OreMaterial material, Map<BaseStone, Coupling> bulkD
         { block = () -> new RedStoneOreBlock(b.getProps().noOcclusion().lightLevel(s -> li)); }
         else { block = () -> new Block(b.getProps().noOcclusion().lightLevel(s -> li)); }
 
-        block = Registry.regBlock(b.get() + m, block);
-        Supplier<Item>  item  = Registry.regSimpleBlockItem((DeferredBlock<Block>) block);
+        block = Registrar.regBlock(b.get() + m, block);
+        Supplier<Item>  item  = Registrar.regSimpleBlockItem((DeferredBlock<Block>) block);
 
         return new Coupling(block, item);
     }
@@ -105,4 +126,10 @@ public record OreCollection(OreMaterial material, Map<BaseStone, Coupling> bulkD
 
     public TagKey<Block> getOreTag()
     { return oreTag; }
+
+    public NumberProvider getDropCount()
+    { return oreDropData; }
+
+    public PrereqTier getPrerequisiteTier()
+    { return neededTier; }
 }

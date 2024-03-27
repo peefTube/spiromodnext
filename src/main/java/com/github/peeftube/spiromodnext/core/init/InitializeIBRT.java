@@ -7,12 +7,8 @@ import com.github.peeftube.spiromodnext.util.ore.BaseStone;
 import com.github.peeftube.spiromodnext.util.ore.Coupling;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.client.ChunkRenderTypeSet;
-import net.neoforged.neoforge.client.model.generators.BlockModelBuilder;
-import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 
 import java.util.Map;
 
@@ -21,16 +17,16 @@ public class InitializeIBRT
     public static void go()
     {
         // Ore handling.
-        oreSettings(Registry.COAL_ORES);
-        oreSettings(Registry.IRON_ORES);
-        oreSettings(Registry.COPPER_ORES);
-        oreSettings(Registry.GOLD_ORES);
-        oreSettings(Registry.LAPIS_ORES);
-        oreSettings(Registry.REDSTONE_ORES);
-        oreSettings(Registry.EMERALD_ORES);
-        oreSettings(Registry.DIAMOND_ORES);
-        oreSettings(Registry.QUARTZ_ORES);
-        oreSettings(Registry.RUBY_ORES);
+        oreSettings(Registrar.COAL_ORES);
+        oreSettings(Registrar.IRON_ORES);
+        oreSettings(Registrar.COPPER_ORES);
+        oreSettings(Registrar.GOLD_ORES);
+        oreSettings(Registrar.LAPIS_ORES);
+        oreSettings(Registrar.REDSTONE_ORES);
+        oreSettings(Registrar.EMERALD_ORES);
+        oreSettings(Registrar.DIAMOND_ORES);
+        oreSettings(Registrar.QUARTZ_ORES);
+        oreSettings(Registrar.RUBY_ORES);
     }
 
     protected static void oreSettings(OreCollection set)

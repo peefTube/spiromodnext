@@ -1,23 +1,19 @@
 package com.github.peeftube.spiromodnext.datagen.modules.lang;
 
 import com.github.peeftube.spiromodnext.SpiroMod;
-import com.github.peeftube.spiromodnext.core.init.Registry;
+import com.github.peeftube.spiromodnext.core.init.Registrar;
 import com.github.peeftube.spiromodnext.core.init.registry.data.OreCollection;
 import com.github.peeftube.spiromodnext.core.init.registry.data.OreMaterial;
 import com.github.peeftube.spiromodnext.util.ore.BaseStone;
 import com.github.peeftube.spiromodnext.util.ore.Coupling;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.data.LanguageProvider;
-import net.neoforged.neoforge.registries.DeferredItem;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
 
 public class EN_USLangDataProv extends LanguageProvider
 {
@@ -34,7 +30,7 @@ public class EN_USLangDataProv extends LanguageProvider
         add(Items.QUARTZ, "Quartz");
 
         // Creative tabs
-        add(Registry.TAB_TITLE_KEY_FORMULAIC + ".minerals_tab", "Ores and Raw Minerals");
+        add(Registrar.TAB_TITLE_KEY_FORMULAIC + ".minerals_tab", "Ores and Raw Minerals");
     }
 
     // Ore set handler

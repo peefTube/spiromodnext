@@ -1,19 +1,20 @@
 package com.github.peeftube.spiromodnext.datagen.modules.tags;
 
 import com.github.peeftube.spiromodnext.SpiroMod;
-import com.github.peeftube.spiromodnext.core.init.Registry;
+import com.github.peeftube.spiromodnext.core.init.Registrar;
 import com.github.peeftube.spiromodnext.core.init.registry.data.OreCollection;
 import com.github.peeftube.spiromodnext.util.ore.Coupling;
+import com.github.peeftube.spiromodnext.util.ore.PrereqTier;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
+import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Supplier;
 
 public class BlockTagDataProv extends BlockTagsProvider
 {
@@ -24,22 +25,27 @@ public class BlockTagDataProv extends BlockTagsProvider
     protected void addTags(HolderLookup.Provider lookup)
     {
         // Ores
-        oreTags(Registry.COAL_ORES);
-        oreTags(Registry.IRON_ORES);
-        oreTags(Registry.COPPER_ORES);
-        oreTags(Registry.GOLD_ORES);
-        oreTags(Registry.LAPIS_ORES);
-        oreTags(Registry.REDSTONE_ORES);
-        oreTags(Registry.EMERALD_ORES);
-        oreTags(Registry.DIAMOND_ORES);
-        oreTags(Registry.QUARTZ_ORES);
-        oreTags(Registry.RUBY_ORES);
+        for (OreCollection ore : OreCollection.ORE_COLLECTIONS) { oreTags(ore); }
     }
 
     private void oreTags(OreCollection set)
     {
         TagKey<Block> tag = set.getOreTag();
+        TagKey<Block> prereqTag = (set.getPrerequisiteTier() == PrereqTier.NONE) ? null : set.getPrerequisiteTier().getATT();
+        TagKey<Block> stockTag = set.getMat().getAOT();
+
         for (Coupling c : set.getBulkData().values())
-        { tag(tag).add(c.getBlock().get()); }
+        {
+            tag(tag).add(c.getBlock().get());
+            tag(BlockTags.MINEABLE_WITH_PICKAXE).add(c.getBlock().get());
+
+            if (prereqTag != null) { tag(prereqTag).add(c.getBlock().get()); }
+        }
+
+        Block b = set.getRawOre().getCoupling().getBlock().get();
+        tag(BlockTags.MINEABLE_WITH_PICKAXE).add(b);
+        if (prereqTag != null) { tag(prereqTag).add(b); }
+
+        if (stockTag != null) { tag(stockTag).addTag(tag); }
     }
 }

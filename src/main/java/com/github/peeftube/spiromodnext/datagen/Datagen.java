@@ -4,6 +4,7 @@ import com.github.peeftube.spiromodnext.SpiroMod;
 import com.github.peeftube.spiromodnext.datagen.modules.BlockstateDataProv;
 import com.github.peeftube.spiromodnext.datagen.modules.ItemModelDataProv;
 import com.github.peeftube.spiromodnext.datagen.modules.lang.EN_USLangDataProv;
+import com.github.peeftube.spiromodnext.datagen.modules.loot.LootTableDataProv;
 import com.github.peeftube.spiromodnext.datagen.modules.tags.BlockTagDataProv;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
@@ -30,7 +31,7 @@ public class Datagen
         generator.addProvider(true, new BlockstateDataProv(output, existingFileHelper));
         generator.addProvider(true, new ItemModelDataProv(output, existingFileHelper));
         // generator.addProvider(true, new SMLootModProv(output));
-        // generator.addProvider(true, new SMLootTableProv(output));
+        generator.addProvider(true, new LootTableDataProv(output));
 
         // Language providers.
         generator.addProvider(true, new EN_USLangDataProv(output, "en_us"));

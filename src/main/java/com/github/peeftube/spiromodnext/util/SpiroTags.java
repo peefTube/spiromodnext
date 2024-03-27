@@ -12,6 +12,9 @@ public class SpiroTags
 {
     public static class Blocks
     {
+        public static TagKey<Block> NEEDS_FLINT_TOOL = tag("needs_flint_tool");
+        public static TagKey<Block> NEEDS_COPPER_TOOL = tag("needs_copper_tool");
+
         public static TagKey<Block> tag(String name) { return BlockTags.create(new ResourceLocation(SpiroMod.MOD_ID, name)); }
         public static TagKey<Block> forgeTag(String name) { return BlockTags.create(new ResourceLocation("forge", name)); }
     }

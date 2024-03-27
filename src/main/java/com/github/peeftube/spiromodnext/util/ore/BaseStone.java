@@ -6,7 +6,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 
 import java.util.function.Supplier;
 
-import static com.github.peeftube.spiromodnext.core.init.Registry.*;
+import static com.github.peeftube.spiromodnext.core.init.Registrar.*;
 
 public enum BaseStone
 {

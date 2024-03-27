@@ -1,12 +1,11 @@
 package com.github.peeftube.spiromodnext.util.ore;
 
-import com.github.peeftube.spiromodnext.core.init.Registry;
+import com.github.peeftube.spiromodnext.core.init.Registrar;
 import com.github.peeftube.spiromodnext.core.init.registry.data.OreMaterial;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.neoforged.neoforge.registries.DeferredBlock;
 
 import java.util.HashMap;
@@ -91,12 +90,12 @@ public interface OreUtilities
             Coupling        c;
             String rawMineral = material.isGem() ? "" : "raw_";
 
-            Supplier<Block> b = Registry.regBlock(rawMineral + material.get() + "_block",
-                    () -> new Block(Registry.RAW_ORE.lightLevel(s -> li)));
-            Supplier<Item> bi = Registry.regSimpleBlockItem((DeferredBlock<Block>) b);
+            Supplier<Block> b = Registrar.regBlock(rawMineral + material.get() + "_block",
+                    () -> new Block(Registrar.RAW_ORE.lightLevel(s -> li)));
+            Supplier<Item> bi = Registrar.regSimpleBlockItem((DeferredBlock<Block>) b);
             c = new Coupling(b, bi);
 
-            return new RawCoupling(c, Registry.ITEMS.register(rawMineral + material.get(),
+            return new RawCoupling(c, Registrar.ITEMS.register(rawMineral + material.get(),
                     () -> new Item(new Item.Properties())));
         }
     }

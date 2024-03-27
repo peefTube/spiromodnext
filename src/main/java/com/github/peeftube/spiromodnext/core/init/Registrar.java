@@ -6,17 +6,22 @@ import com.github.peeftube.spiromodnext.core.init.creativetabs.CreativeTabProces
 import com.github.peeftube.spiromodnext.core.init.registry.data.BlockToughness;
 import com.github.peeftube.spiromodnext.core.init.registry.data.OreCollection;
 import com.github.peeftube.spiromodnext.core.init.registry.data.OreMaterial;
+import com.github.peeftube.spiromodnext.util.SpiroTags;
+import com.github.peeftube.spiromodnext.util.ore.PrereqTier;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.BlockItem;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.neoforge.common.SimpleTier;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -24,7 +29,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.function.Supplier;
 
-public class Registry
+public class Registrar
 {
     // Create a Deferred Register to hold Items which will all be registered under the "examplemod" namespace
     //public static final DeferredRegister.Items            ITEMS              = DeferredRegister.createItems(MOD_ID);
@@ -50,6 +55,14 @@ public class Registry
 
         TierMod.fire();
     }
+
+    public static final SimpleTier TIER_FLINT = new SimpleTier(1, 95, 3.2F, 0.7f, 13,
+            SpiroTags.Blocks.NEEDS_FLINT_TOOL, () -> Ingredient.of(Items.FLINT));
+    public static final ResourceLocation flint = new ResourceLocation("flint");
+
+    public static final SimpleTier TIER_COPPER = new SimpleTier(1, 165, 5.2F, 1.5f, 8,
+            SpiroTags.Blocks.NEEDS_COPPER_TOOL, () -> Ingredient.of(Items.FLINT));
+    public static final ResourceLocation copper = new ResourceLocation("copper");
 
     public static final BlockBehaviour.Properties STONE_BASED_ORE     =
             BlockBehaviour.Properties.of().strength(BlockToughness.NORMAL.get()).sound(SoundType.STONE);
@@ -79,16 +92,16 @@ public class Registry
     public static <I extends Item> DeferredItem<I> regSimpleBlockItem(DeferredBlock<Block> block)
     { return (DeferredItem<I>) ITEMS.registerSimpleBlockItem(block); }
 
-    public static final OreCollection COAL_ORES = OreCollection.registerCollection(OreMaterial.COAL);
-    public static final OreCollection IRON_ORES = OreCollection.registerCollection(OreMaterial.IRON);
-    public static final OreCollection COPPER_ORES = OreCollection.registerCollection(OreMaterial.COPPER);
-    public static final OreCollection GOLD_ORES = OreCollection.registerCollection(OreMaterial.GOLD);
-    public static final OreCollection LAPIS_ORES = OreCollection.registerCollection(OreMaterial.LAPIS);
-    public static final OreCollection REDSTONE_ORES = OreCollection.registerCollection(OreMaterial.REDSTONE);
-    public static final OreCollection DIAMOND_ORES = OreCollection.registerCollection(OreMaterial.DIAMOND);
-    public static final OreCollection EMERALD_ORES = OreCollection.registerCollection(OreMaterial.EMERALD);
-    public static final OreCollection QUARTZ_ORES = OreCollection.registerCollection(OreMaterial.QUARTZ);
-    public static final OreCollection RUBY_ORES = OreCollection.registerCollection(OreMaterial.RUBY);
+    public static final OreCollection COAL_ORES = OreCollection.registerCollection(OreMaterial.COAL, PrereqTier.WOOD);
+    public static final OreCollection IRON_ORES = OreCollection.registerCollection(OreMaterial.IRON, PrereqTier.STONE);
+    public static final OreCollection COPPER_ORES = OreCollection.registerCollection(OreMaterial.COPPER, PrereqTier.STONE);
+    public static final OreCollection GOLD_ORES = OreCollection.registerCollection(OreMaterial.GOLD, PrereqTier.IRON);
+    public static final OreCollection LAPIS_ORES = OreCollection.registerCollection(OreMaterial.LAPIS, PrereqTier.IRON);
+    public static final OreCollection REDSTONE_ORES = OreCollection.registerCollection(OreMaterial.REDSTONE, PrereqTier.IRON);
+    public static final OreCollection DIAMOND_ORES = OreCollection.registerCollection(OreMaterial.DIAMOND, PrereqTier.IRON);
+    public static final OreCollection EMERALD_ORES = OreCollection.registerCollection(OreMaterial.EMERALD, PrereqTier.IRON);
+    public static final OreCollection QUARTZ_ORES = OreCollection.registerCollection(OreMaterial.QUARTZ, PrereqTier.STONE);
+    public static final OreCollection RUBY_ORES = OreCollection.registerCollection(OreMaterial.RUBY, PrereqTier.IRON);
 
     // Language key for creative tabs
     public static final String TAB_TITLE_KEY_FORMULAIC = "itemGroup." + SpiroMod.MOD_ID;
