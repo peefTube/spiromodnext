@@ -27,7 +27,8 @@ public class RecipeDataProv extends RecipeProvider implements IConditionBuilder
     protected void buildRecipes(RecipeOutput output)
     {
         // Automatic ore smelting handler, this will later handle ore-to-ingot conversions when that's implemented
-        // TODO: THIS NEEDS ORE-TO-INGOT FOR NON-GEMS!!! FIX ASAP
+        // NOTE: The ore-to-ingot conversion mentioned is not block-to-ingot smelting, but item-to-ingot, which will
+        //       need to be handled later when new non-gems are added
         for (OreCollection ore : OreCollection.ORE_COLLECTIONS) { oreSmeltingHandler(ore, output); }
     }
 
@@ -36,9 +37,11 @@ public class RecipeDataProv extends RecipeProvider implements IConditionBuilder
         TagKey<Item> tag = set.getOreIT();
         String mat = set.getMat().get();
 
+        Item output = ( set.getMat().getIngotConvertible() != null ) ? set.getMat().getIngotConvertible().get() :
+                set.getRawOre().getRawItem().get();
+
         // TODO: Add data to OreCollection which handles the experience and cooking time; should probably be enumerated
-        SimpleCookingRecipeBuilder.smelting(Ingredient.of(tag), RecipeCategory.MISC, set.getRawOre().getRawItem().get(),
-                1.0f, 200)
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(tag), RecipeCategory.MISC, output, 1.0f, 200)
                 .unlockedBy("has_ore", has(tag))
                 .save(consumer, new ResourceLocation(SpiroMod.MOD_ID, "spiro_smelt_" + mat + "_from_ore_block"));
     }

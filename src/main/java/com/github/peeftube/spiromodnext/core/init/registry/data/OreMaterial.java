@@ -2,23 +2,27 @@ package com.github.peeftube.spiromodnext.core.init.registry.data;
 
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
+
+import java.util.function.Supplier;
 
 public enum OreMaterial
 {
     // Vanilla.
-    COAL("coal", false, BlockTags.COAL_ORES),
-    IRON("iron", false, BlockTags.IRON_ORES),
-    COPPER("copper", false, BlockTags.COPPER_ORES),
-    GOLD("gold", false, BlockTags.GOLD_ORES),
-    LAPIS("lapis", true, BlockTags.LAPIS_ORES),
-    REDSTONE("redstone", true, BlockTags.REDSTONE_ORES),
-    EMERALD("emerald", true, BlockTags.EMERALD_ORES),
-    DIAMOND("diamond", true, BlockTags.DIAMOND_ORES),
-    QUARTZ("quartz", true, null),
+    COAL("coal", false, BlockTags.COAL_ORES, null),
+    IRON("iron", false, BlockTags.IRON_ORES, () -> Items.IRON_INGOT),
+    COPPER("copper", false, BlockTags.COPPER_ORES, () -> Items.COPPER_INGOT),
+    GOLD("gold", false, BlockTags.GOLD_ORES, () -> Items.GOLD_INGOT),
+    LAPIS("lapis", true, BlockTags.LAPIS_ORES, null),
+    REDSTONE("redstone", true, BlockTags.REDSTONE_ORES, null),
+    EMERALD("emerald", true, BlockTags.EMERALD_ORES, null),
+    DIAMOND("diamond", true, BlockTags.DIAMOND_ORES, null),
+    QUARTZ("quartz", true, null, null),
 
     // Modded.
-    RUBY("ruby", true, null);
+    RUBY("ruby", true, null, null);
 
     private final String name;
 
@@ -28,8 +32,12 @@ public enum OreMaterial
     // Associated block tag; this is for vanilla ores but can be extended to Forge ores as well if needed
     private final TagKey<Block> associatedOreTag;
 
-    OreMaterial(String name, boolean isGem, TagKey<Block> associatedOreTag)
-    { this.name = name; this.isGem = isGem; this.associatedOreTag = associatedOreTag; }
+    // Associated ingot to smelt to, if one exists; if this is a "high-yield gem" which outputs raw ores, use that instead
+    private final Supplier<Item> ingotConvertible;
+
+    OreMaterial(String name, boolean isGem, TagKey<Block> associatedOreTag, Supplier<Item> ingotConvertible)
+    { this.name = name; this.isGem = isGem;
+        this.associatedOreTag = associatedOreTag; this.ingotConvertible = ingotConvertible; }
 
     public String get()
     { return name; }
@@ -39,4 +47,7 @@ public enum OreMaterial
 
     public TagKey<Block> getAOT()
     { return associatedOreTag; }
+
+    public Supplier<Item> getIngotConvertible()
+    { return ingotConvertible; }
 }
