@@ -11,6 +11,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.RedStoneOreBlock;
 import net.neoforged.neoforge.registries.DeferredBlock;
 
 import java.util.ArrayList;
@@ -80,8 +81,14 @@ public record OreCollection(OreMaterial material, Map<BaseStone, Coupling> bulkD
 
     private static Coupling createNew(BaseStone b, String m, int li)
     {
-        Supplier<Block> block = Registry.regBlock(b.get() + m, () -> new Block(b.getProps().noOcclusion()
-                                                                                .lightLevel(s -> li)));
+        Supplier<Block> block;
+
+        // Quick redstone catch case
+        if (m.toLowerCase().contains("redstone"))
+        { block = () -> new RedStoneOreBlock(b.getProps().noOcclusion().lightLevel(s -> li)); }
+        else { block = () -> new Block(b.getProps().noOcclusion().lightLevel(s -> li)); }
+
+        block = Registry.regBlock(b.get() + m, block);
         Supplier<Item>  item  = Registry.regSimpleBlockItem((DeferredBlock<Block>) block);
 
         return new Coupling(block, item);

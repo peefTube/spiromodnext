@@ -9,6 +9,7 @@ import com.github.peeftube.spiromodnext.util.ore.Coupling;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -28,6 +29,9 @@ public class EN_USLangDataProv extends LanguageProvider
     {
         // Ores
         for (OreCollection ore : OreCollection.ORE_COLLECTIONS) { oreParser(ore); }
+
+        // Override name of "Nether Quartz", call it "Quartz" instead.
+        add(Items.QUARTZ, "Quartz");
 
         // Creative tabs
         add(Registry.TAB_TITLE_KEY_FORMULAIC + ".minerals_tab", "Ores and Raw Minerals");

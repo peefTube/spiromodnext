@@ -149,7 +149,7 @@ public class BlockstateDataProv extends BlockStateProvider
                                .texture("base", baseTex).element().cube("#base").end()
                                .texture("over", oreTex).element().cube("#over").end()
                                .texture("particle", baseTex)
-                               .renderType(renTranslucent);
+                               /* .renderType(renTranslucent) */;
             }
             case 1 ->
             {
@@ -167,7 +167,7 @@ public class BlockstateDataProv extends BlockStateProvider
                                .end()
                                .texture("over", oreTex).element().cube("#over").end()
                                .texture("particle", getBottomTex(baseTex))
-                               .renderType(renTranslucent);
+                               /* .renderType(renTranslucent) */;
             }
         }
     }
