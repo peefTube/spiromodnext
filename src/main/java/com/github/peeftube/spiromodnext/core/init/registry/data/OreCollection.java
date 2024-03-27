@@ -19,8 +19,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
-public record OreCollection(OreMaterial material, Map<BaseStone, Coupling> bulkData,
-                            RawCoupling rawOreCoupling, TagKey<Block> oreTag, PrereqTier neededTier,
+public record OreCollection(OreMaterial material, Map<BaseStone, OreCoupling> bulkData,
+                            RawCoupling rawOreCoupling, OreTagCoupling oreTags, PrereqTier neededTier,
                             NumberProvider oreDropData)
         implements OreUtilities
 {
@@ -51,7 +51,7 @@ public record OreCollection(OreMaterial material, Map<BaseStone, Coupling> bulkD
         int li = lightEmissionLevel;
 
         // Set up the map.
-        Map<BaseStone, Coupling> mappings = new HashMap<>();
+        Map<BaseStone, OreCoupling> mappings = new HashMap<>();
 
         for(BaseStone s : BaseStone.values())
         {
@@ -78,13 +78,16 @@ public record OreCollection(OreMaterial material, Map<BaseStone, Coupling> bulkD
                 default -> { mappings.put(s, createNew(s, oreName, li)); }
             }
         }
-        TagKey<Block> tag = SpiroTags.Blocks.tag("spiro_" + material.get() + "_ore");
+        String tagkey = "spiro_" + material.get() + "_ore";
+        TagKey<Block> blockTag = SpiroTags.Blocks.tag(tagkey);
+        TagKey<Item> itemTag = SpiroTags.Items.tag(tagkey);
+        OreTagCoupling tags = new OreTagCoupling(blockTag, itemTag);
 
         NumberProvider oreDrops = (MinMax.getMin() == MinMax.getMax()) ? ConstantValue.exactly(MinMax.getMin()) :
                 UniformGenerator.between(MinMax.getMin(), MinMax.getMax());
 
         OreCollection collection = new OreCollection(material, mappings, OreUtilities.determineRawOre(material, li),
-                tag, neededTier, oreDrops);
+                tags, neededTier, oreDrops);
         ORE_COLLECTIONS.add(collection); return collection;
     }
 
@@ -93,14 +96,14 @@ public record OreCollection(OreMaterial material, Map<BaseStone, Coupling> bulkD
     * you insist upon giving yourself a headache.
     * That or you're a dense masochist. Choice is yours, just don't cry to me about it.
     * - spiro9 - */
-    private static Coupling findPreset(BaseStone b, OreMaterial m)
+    private static OreCoupling findPreset(BaseStone b, OreMaterial m)
     {
         // Easy!
-        Map<BaseStone, Map<OreMaterial, Coupling>> reference = OreUtilities.getComboPresets();
+        Map<BaseStone, Map<OreMaterial, OreCoupling>> reference = OreUtilities.getComboPresets();
         return reference.get(b).get(m);
     }
 
-    private static Coupling createNew(BaseStone b, String m, int li)
+    private static OreCoupling createNew(BaseStone b, String m, int li)
     {
         Supplier<Block> block;
 
@@ -112,20 +115,23 @@ public record OreCollection(OreMaterial material, Map<BaseStone, Coupling> bulkD
         block = Registrar.regBlock(b.get() + m, block);
         Supplier<Item>  item  = Registrar.regSimpleBlockItem((DeferredBlock<Block>) block);
 
-        return new Coupling(block, item);
+        return new OreCoupling(block, item);
     }
 
     public OreMaterial getMat()
     { return this.material; }
 
-    public Map<BaseStone, Coupling> getBulkData()
+    public Map<BaseStone, OreCoupling> getBulkData()
     { return bulkData; }
     
     public RawCoupling getRawOre()
     { return rawOreCoupling; }
 
-    public TagKey<Block> getOreTag()
-    { return oreTag; }
+    public TagKey<Block> getOreBT()
+    { return oreTags.getBlockTag(); }
+
+    public TagKey<Item> getOreIT()
+    { return oreTags.getItemTag(); }
 
     public NumberProvider getDropCount()
     { return oreDropData; }

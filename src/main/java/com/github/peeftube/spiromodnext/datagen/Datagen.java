@@ -5,7 +5,9 @@ import com.github.peeftube.spiromodnext.datagen.modules.BlockstateDataProv;
 import com.github.peeftube.spiromodnext.datagen.modules.ItemModelDataProv;
 import com.github.peeftube.spiromodnext.datagen.modules.lang.EN_USLangDataProv;
 import com.github.peeftube.spiromodnext.datagen.modules.loot.LootTableDataProv;
+import com.github.peeftube.spiromodnext.datagen.modules.recipe.RecipeDataProv;
 import com.github.peeftube.spiromodnext.datagen.modules.tags.BlockTagDataProv;
+import com.github.peeftube.spiromodnext.datagen.modules.tags.ItemTagDataProv;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -23,11 +25,13 @@ public class Datagen
         PackOutput         output             = generator.getPackOutput();
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 
-        generator.addProvider(true, new BlockTagDataProv(output, event.getLookupProvider(), existingFileHelper));
-        // generator.addProvider(true, new SMItemTagProv(output, event.getLookupProvider(), blockTags, existingFileHelper));
+        BlockTagDataProv bTags = new BlockTagDataProv(output, event.getLookupProvider(), existingFileHelper);
+        generator.addProvider(true, bTags);
+        generator.addProvider(true, new ItemTagDataProv(output, event.getLookupProvider(),
+                bTags.contentsGetter(), existingFileHelper));
         // generator.addProvider(true, new SMBiomeTagProv(output, event.getLookupProvider(), existingFileHelper));
 
-        // generator.addProvider(true, new SMRecipeProv(output));
+        generator.addProvider(true, new RecipeDataProv(output, event.getLookupProvider()));
         generator.addProvider(true, new BlockstateDataProv(output, existingFileHelper));
         generator.addProvider(true, new ItemModelDataProv(output, existingFileHelper));
         // generator.addProvider(true, new SMLootModProv(output));

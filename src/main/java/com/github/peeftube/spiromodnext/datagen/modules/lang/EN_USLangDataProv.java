@@ -5,7 +5,7 @@ import com.github.peeftube.spiromodnext.core.init.Registrar;
 import com.github.peeftube.spiromodnext.core.init.registry.data.OreCollection;
 import com.github.peeftube.spiromodnext.core.init.registry.data.OreMaterial;
 import com.github.peeftube.spiromodnext.util.ore.BaseStone;
-import com.github.peeftube.spiromodnext.util.ore.Coupling;
+import com.github.peeftube.spiromodnext.util.ore.OreCoupling;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -43,8 +43,8 @@ public class EN_USLangDataProv extends LanguageProvider
         //       code should ignore the raw ore blocks.
 
         // Prepare set data.
-        OreMaterial              material = set.getMat();
-        Map<BaseStone, Coupling> bulkData = set.getBulkData();
+        OreMaterial                 material = set.getMat();
+        Map<BaseStone, OreCoupling> bulkData = set.getBulkData();
 
         if (material == OreMaterial.COAL || material == OreMaterial.IRON || material == OreMaterial.COPPER
                 || material == OreMaterial.GOLD || material == OreMaterial.LAPIS || material == OreMaterial.REDSTONE

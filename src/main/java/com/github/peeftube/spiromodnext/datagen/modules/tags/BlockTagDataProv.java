@@ -1,16 +1,14 @@
 package com.github.peeftube.spiromodnext.datagen.modules.tags;
 
 import com.github.peeftube.spiromodnext.SpiroMod;
-import com.github.peeftube.spiromodnext.core.init.Registrar;
 import com.github.peeftube.spiromodnext.core.init.registry.data.OreCollection;
-import com.github.peeftube.spiromodnext.util.ore.Coupling;
+import com.github.peeftube.spiromodnext.util.ore.OreCoupling;
 import com.github.peeftube.spiromodnext.util.ore.PrereqTier;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
-import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
@@ -30,11 +28,11 @@ public class BlockTagDataProv extends BlockTagsProvider
 
     private void oreTags(OreCollection set)
     {
-        TagKey<Block> tag = set.getOreTag();
+        TagKey<Block> tag = set.getOreBT();
         TagKey<Block> prereqTag = (set.getPrerequisiteTier() == PrereqTier.NONE) ? null : set.getPrerequisiteTier().getATT();
         TagKey<Block> stockTag = set.getMat().getAOT();
 
-        for (Coupling c : set.getBulkData().values())
+        for (OreCoupling c : set.getBulkData().values())
         {
             tag(tag).add(c.getBlock().get());
             tag(BlockTags.MINEABLE_WITH_PICKAXE).add(c.getBlock().get());

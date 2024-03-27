@@ -4,7 +4,7 @@ import com.github.peeftube.spiromodnext.SpiroMod;
 import com.github.peeftube.spiromodnext.core.init.registry.data.OreCollection;
 import com.github.peeftube.spiromodnext.core.init.registry.data.OreMaterial;
 import com.github.peeftube.spiromodnext.util.ore.BaseStone;
-import com.github.peeftube.spiromodnext.util.ore.Coupling;
+import com.github.peeftube.spiromodnext.util.ore.OreCoupling;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.level.block.Block;
@@ -37,8 +37,8 @@ public class InitializeIBRT
         // DO NOT include packed ore blocks in this unless you want a headache.
 
         // Prepare set data.
-        OreMaterial              material = set.getMat();
-        Map<BaseStone, Coupling> bulkData = set.getBulkData();
+        OreMaterial                 material = set.getMat();
+        Map<BaseStone, OreCoupling> bulkData = set.getBulkData();
 
         if (material == OreMaterial.COAL || material == OreMaterial.IRON || material == OreMaterial.COPPER
                 || material == OreMaterial.GOLD || material == OreMaterial.LAPIS || material == OreMaterial.REDSTONE

@@ -1,7 +1,7 @@
 package com.github.peeftube.spiromodnext.core.init.creativetabs;
 
 import com.github.peeftube.spiromodnext.core.init.registry.data.OreCollection;
-import com.github.peeftube.spiromodnext.util.ore.Coupling;
+import com.github.peeftube.spiromodnext.util.ore.OreCoupling;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.LinkedHashSet;
@@ -16,7 +16,7 @@ public class CreativeTabProcessor
         // Run over all ore sets.
         for (OreCollection ore : OreCollection.ORE_COLLECTIONS)
         {
-            for (Coupling c : ore.getBulkData().values())
+            for (OreCoupling c : ore.getBulkData().values())
             {
                 ItemStack iS = c.getItem().get().getDefaultInstance();
                 output.add(iS);

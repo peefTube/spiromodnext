@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
-public record Coupling(Supplier<Block> block, Supplier<Item> item)
+public record OreCoupling(Supplier<Block> block, Supplier<Item> item)
 {
-    public static List<Coupling> COUPLINGS = new ArrayList<>();
+    public static List<OreCoupling> ORE_COUPLINGS = new ArrayList<>();
 
-    public static Coupling couple(Supplier<Block> b, Supplier<Item> i)
-    { Coupling c = new Coupling(b, i); COUPLINGS.add(c); return c; }
+    public static OreCoupling couple(Supplier<Block> b, Supplier<Item> i)
+    { OreCoupling c = new OreCoupling(b, i); ORE_COUPLINGS.add(c); return c; }
 
     public Supplier<Block> getBlock()
     { return block; }
