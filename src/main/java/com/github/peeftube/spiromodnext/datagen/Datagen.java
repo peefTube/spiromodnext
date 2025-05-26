@@ -8,12 +8,15 @@ import com.github.peeftube.spiromodnext.datagen.modules.loot.LootTableDataProv;
 import com.github.peeftube.spiromodnext.datagen.modules.recipe.RecipeDataProv;
 import com.github.peeftube.spiromodnext.datagen.modules.tags.BlockTagDataProv;
 import com.github.peeftube.spiromodnext.datagen.modules.tags.ItemTagDataProv;
+import com.github.peeftube.spiromodnext.datagen.modules.world.WorldgenDataProv;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
+
+import java.util.Set;
 
 @Mod.EventBusSubscriber(modid = SpiroMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class Datagen
@@ -40,7 +43,7 @@ public class Datagen
         // Language providers.
         generator.addProvider(true, new EN_USLangDataProv(output, "en_us"));
 
-        // generator.addProvider(true, new SMWorldgenDataProv(output,
-        //        event.getLookupProvider(), Set.of(SpiroMod.MOD_ID, "minecraft")));
+        generator.addProvider(true, new WorldgenDataProv(output,
+                event.getLookupProvider(), Set.of(SpiroMod.MOD_ID, "minecraft")));
     }
 }

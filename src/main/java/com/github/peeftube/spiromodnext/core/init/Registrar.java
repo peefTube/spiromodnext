@@ -9,6 +9,7 @@ import com.github.peeftube.spiromodnext.core.init.registry.data.OreMaterial;
 import com.github.peeftube.spiromodnext.util.MinMax;
 import com.github.peeftube.spiromodnext.util.SpiroTags;
 import com.github.peeftube.spiromodnext.util.ore.PrereqTier;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -20,13 +21,11 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.neoforge.common.SimpleTier;
-import net.neoforged.neoforge.registries.DeferredBlock;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredItem;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.*;
 
 import java.util.function.Supplier;
 
@@ -34,8 +33,6 @@ public class Registrar
 {
     // Create a Deferred Register to hold Items which will all be registered under the "examplemod" namespace
     //public static final DeferredRegister.Items            ITEMS              = DeferredRegister.createItems(MOD_ID);
-    // Create a Deferred Register to hold CreativeModeTabs which will all be registered under the "examplemod" namespace
-    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, SpiroMod.MOD_ID);
 
     // Creates a new Block with the id "examplemod:example_block", combining the namespace and path
     // public static final DeferredBlock<Block> EXAMPLE_BLOCK = BLOCKS.registerSimpleBlock("example_block", BlockBehaviour.Properties.of().mapColor(MapColor.STONE));
@@ -52,6 +49,7 @@ public class Registrar
         IEventBus bus = ModLoadingContext.get().getActiveContainer().getEventBus();
         BLOCKS.register(bus);
         ITEMS.register(bus);
+        FEATURES.register(bus);
         CREATIVE_MODE_TABS.register(bus);
 
         TierMod.fire();
@@ -84,6 +82,9 @@ public class Registrar
 
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(SpiroMod.MOD_ID);
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(SpiroMod.MOD_ID);
+    public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(BuiltInRegistries.FEATURE, SpiroMod.MOD_ID);
+    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
+            DeferredRegister.create(Registries.CREATIVE_MODE_TAB, SpiroMod.MOD_ID);
 
     // Based on Nyfaria's code:
     // https://shorturl.at/bktNR
